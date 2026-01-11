@@ -5,11 +5,17 @@ import cart from "../assets/cart.jpg";
 import appointment from "../assets/appointment.jpg";
 import DownloadSheet from "../components/DownloadSheet";
 import AuthSheet from "../components/AuthSheet";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
+  const nav = useNavigate();
+  const { user } = useAuth();
+
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+
   const [location, setLocation] = useState<string | null>(null);
   const [campuses, setCampuses] = useState<string[]>([]);
   const [showSearch, setShowSearch] = useState(false);
@@ -31,19 +37,29 @@ export default function Home() {
         </div>
 
         <div className="home-actions">
-          <button className="btn-download" onClick={() => setDownloadOpen(true)}>
-            Download
-          </button>
-          <button
-            className="btn-signin"
-            onClick={() => {
-              setMode("signin");
-              setAuthOpen(true);
-            }}
-          >
-            Sign In
-          </button>
-        </div>
+  {!user && (
+    <button className="btn-download" onClick={() => setDownloadOpen(true)}>
+      Download
+    </button>
+  )}
+
+  {user ? (
+    <div className="user-circle-only" onClick={() => nav("/user")}>
+      U
+    </div>
+  ) : (
+    <button
+      className="btn-signin"
+      onClick={() => {
+        setMode("signin");
+        setAuthOpen(true);
+      }}
+    >
+      Sign In
+    </button>
+  )}
+</div>
+
       </div>
 
       <h2 className="home-title">
@@ -52,7 +68,7 @@ export default function Home() {
 
       <div className="home-main-btns">
         <button className="icon-btn" onClick={() => setShowSearch(!showSearch)}>
-          <Search size={18} /> Search for services
+          <Search size={18} /> Search
         </button>
 
         <button
@@ -70,31 +86,27 @@ export default function Home() {
 
       {showSearch && (
         <div className="glass-dropdown">
-          {services.map((s) => (
-            <p key={s}>{s}</p>
-          ))}
+          {services.map((s) => <p key={s}>{s}</p>)}
         </div>
       )}
 
       {campuses.length > 0 && (
         <div className="glass-dropdown">
-          {campuses.map((c) => (
-            <p key={c}>{c}</p>
-          ))}
+          {campuses.map((c) => <p key={c}>{c}</p>)}
         </div>
       )}
 
       <div className="service-column">
-        <div className="service-card" onClick={() => (window.location.href = "/cart")}>
+        <div className="service-card" onClick={() => nav("/cart")}>
           <div className="image-box">
-            <img src={cart} className="service-img" />
+            <img src={cart} />
           </div>
           <p>Cart Service</p>
         </div>
 
-        <div className="service-card" onClick={() => (window.location.href = "/appointment")}>
+        <div className="service-card">
           <div className="image-box">
-            <img src={appointment} className="service-img" />
+            <img src={appointment} />
           </div>
           <p>Appointment Service</p>
         </div>
@@ -106,7 +118,6 @@ export default function Home() {
       </div>
 
       <DownloadSheet open={downloadOpen} onClose={() => setDownloadOpen(false)} />
-
       <AuthSheet
         open={authOpen}
         mode={mode}

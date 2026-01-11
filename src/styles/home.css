@@ -178,3 +178,22 @@
   left: 12px;
   transition: 0.35s ease;
 }
+
+.user-circle-only {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #0D4715;
+  color: #EBE1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-circle-only:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(13,71,21,0.4);
+}
