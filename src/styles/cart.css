@@ -1,0 +1,98 @@
+.cart-root {
+  height: 100vh;
+  background: #EBE1D1;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Floating green panel */
+.cart-panel {
+  background: #EBE1D1;
+  border-radius: 28px;
+  padding: 14px;
+  box-shadow: 0 10px 26px rgba(13,71,21,0.4);
+  color: #EBE1D1;
+}
+
+/* Header */
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #0b3b11;
+}
+
+.cart-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #0b3b11;
+  color: #EBE1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* Capsules */
+.cart-around,
+.cart-break {
+  margin-top: 12px;
+  background: #0b3b11;
+  border-radius: 18px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.15);
+}
+
+/* Route container */
+.cart-route-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  background: #0b3b11;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+/* From / To cards */
+.route-card {
+  flex: 1;
+  background: #0D4715;
+  border-radius: 18px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.12);
+}
+
+.route-card span {
+  display: block;
+  margin-top: 6px;
+  background: rgba(235,225,209,0.25);
+  border-radius: 14px;
+  padding: 6px;
+}
+
+/* Map frame */
+.cart-map-frame {
+  margin-top: 14px;
+  flex: 1;
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 -6px 16px rgba(0,0,0,0.25);
+}
+
+.cart-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

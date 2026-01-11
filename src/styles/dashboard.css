@@ -1,0 +1,62 @@
+.dash-root {
+  padding-bottom: 140px;
+}
+
+/* Green capsule base */
+.dash-base {
+  position: fixed;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0D4715;
+  border-radius: 36px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Sliding glass */
+.dash-glass {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(14px);
+  border-radius: 26px;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Tabs */
+.dash-tab {
+  position: relative;
+  z-index: 2;
+  color: #EBE1D1;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Copyright */
+.dash-copy {
+  position: fixed;
+  bottom: 14px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #EBE1D1;
+}
+
+.dash-hide {
+  opacity: 0;
+  transform: translate(-50%, 80px);
+  pointer-events: none;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.dash-base,
+.dash-copy {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}

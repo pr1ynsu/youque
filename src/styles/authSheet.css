@@ -1,0 +1,146 @@
+.auth-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,71,21,0.45);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.auth-sheet {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background: linear-gradient(
+    145deg,
+    rgba(235,225,209,0.9),
+    rgba(255,255,255,0.65)
+  );
+  backdrop-filter: blur(20px);
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  padding: 28px 22px 34px;
+  animation: authSlideUp 0.5s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 -18px 40px rgba(13,71,21,0.45);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-sizing: border-box;
+}
+
+.auth-handle {
+  width: 46px;
+  height: 5px;
+  background: rgba(13,71,21,0.4);
+  border-radius: 12px;
+  margin: 0 auto 18px;
+}
+
+.auth-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #0D4715;
+  margin-bottom: 18px;
+}
+
+.auth-logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #0D4715;
+  color: #EBE1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.auth-sheet h3 {
+  text-align: center;
+  color: #0D4715;
+  margin-bottom: 16px;
+}
+
+.auth-inputs {
+  padding: 0 4px;
+}
+
+.auth-inputs input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  border: none;
+  background: rgba(13,71,21,0.12);
+  color: #0D4715;
+  box-sizing: border-box;
+}
+
+.auth-btn {
+  width: calc(100% - 8px);
+  margin: 8px 4px 0;
+  padding: 12px;
+  border-radius: 20px;
+  background: #0D4715;
+  color: #EBE1D1;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(13,71,21,0.35);
+}
+
+.auth-or {
+  text-align: center;
+  color: rgba(13,71,21,0.7);
+  margin: 16px 0;
+}
+
+.auth-socials {
+  display: flex;
+  justify-content: space-around;
+  gap: 14px;
+}
+
+.auth-socials img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  padding: 6px;
+  background: rgba(13,71,21,0.12);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-socials img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(13,71,21,0.3);
+}
+
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(13,71,21,0.8);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.auth-highlight {
+  font-weight: 700;
+  color: #EBE1D1;
+  margin-left: 4px;
+}
+
+.auth-switch:hover {
+  color: #0D4715;
+}
+
+@keyframes authSlideUp {
+  from { transform: translateY(120%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

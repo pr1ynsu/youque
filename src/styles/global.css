@@ -1,0 +1,18 @@
+@import "./theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap");
+
+body {
+  background: #EBE1D1;
+  min-height: 100vh;
+  font-family: "Hammersmith One", system-ui, sans-serif;
+}
+
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
