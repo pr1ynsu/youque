@@ -6,9 +6,21 @@ export default function Opening() {
   const nav = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => nav("/home"), 10000);
-    return () => clearTimeout(timer);
-  }, []);
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    const timer = setTimeout(() => {
+      nav("/home");
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    }, 10000);
+
+    return () => {
+      clearTimeout(timer);
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+    };
+  }, [nav]);
 
   return (
     <div className="opening-root">
