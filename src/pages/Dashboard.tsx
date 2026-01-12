@@ -64,7 +64,10 @@ export default function Dashboard() {
         {tabs.map((t, i) => (
           <span
             key={t}
-            ref={(el) => el && (refs.current[i] = el)}
+            ref={(el) => {
+              if (el) refs.current[i] = el;
+                          }}
+
             className="dash-tab"
             onClick={() => handleClick(t, i)}
           >

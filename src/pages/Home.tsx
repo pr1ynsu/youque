@@ -17,7 +17,6 @@ export default function Home() {
   const [authOpen, setAuthOpen] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
 
-  const [location, setLocation] = useState<string | null>(null);
   const [campuses, setCampuses] = useState<string[]>([]);
   const [services, setServices] = useState<string[]>([]);
   const [loopText, setLoopText] = useState("Location");
@@ -40,8 +39,7 @@ export default function Home() {
 
   const loadLocation = async () => {
     navigator.geolocation.getCurrentPosition(async () => {
-      const city = "bhubaneswar"; // later replace with reverse-geocode
-      setLocation(city);
+      const city = "bhubaneswar";
 
       const data = await fetchCityData(city);
       if (!data) return;
@@ -100,19 +98,23 @@ export default function Home() {
         </button>
 
         <button className="icon-btn" onClick={loadLocation}>
-          <MapPin size={18}/> {campuses.length ? loopText : "Location"}
+          <MapPin size={18} /> {loopText}
         </button>
       </div>
 
       {showSearch && (
         <div ref={dropdownRef} className="glass-dropdown">
-          {services.map(s => <p key={s} onClick={() => setShowSearch(false)}>{s}</p>)}
+          {services.map(s => (
+            <p key={s} onClick={() => setShowSearch(false)}>{s}</p>
+          ))}
         </div>
       )}
 
       {showCampuses && (
         <div ref={dropdownRef} className="glass-dropdown">
-          {campuses.map(c => <p key={c} onClick={() => setShowCampuses(false)}>{c}</p>)}
+          {campuses.map(c => (
+            <p key={c} onClick={() => setShowCampuses(false)}>{c}</p>
+          ))}
         </div>
       )}
 
@@ -134,7 +136,12 @@ export default function Home() {
       </div>
 
       <DownloadSheet open={downloadOpen} onClose={() => setDownloadOpen(false)} />
-      <AuthSheet open={authOpen} mode={mode} onClose={() => setAuthOpen(false)} onSwitch={() => setMode(mode === "signin" ? "signup" : "signin")} />
+      <AuthSheet
+        open={authOpen}
+        mode={mode}
+        onClose={() => setAuthOpen(false)}
+        onSwitch={() => setMode(mode === "signin" ? "signup" : "signin")}
+      />
     </div>
   );
 }
