@@ -1,6 +1,12 @@
 @import "./theme.css";
 @import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap");
 
+html, body {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: none;
+}
+
 body {
   background: #EBE1D1;
   min-height: 100vh;

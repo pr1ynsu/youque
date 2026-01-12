@@ -15,12 +15,34 @@ export default function Dashboard() {
   const refs = useRef<HTMLSpanElement[]>([]);
   const [style, setStyle] = useState({ left: 0, width: 0 });
 
+  const [visible, setVisible] = useState(true);
+  const timer = useRef<number | null>(null);
+  const isCart = location.pathname === "/cart";
+
   useEffect(() => {
     const current = location.pathname.replace("/", "") || "home";
     const index = tabs.indexOf(current);
     const el = refs.current[index];
     if (el) setStyle({ left: el.offsetLeft - 6, width: el.offsetWidth + 12 });
   }, [location.pathname, tabs]);
+
+  useEffect(() => {
+    if (!isCart) return;
+
+    const reveal = () => {
+      setVisible(true);
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => setVisible(false), 2500);
+    };
+
+    window.addEventListener("wheel", reveal);
+    window.addEventListener("touchmove", reveal);
+
+    return () => {
+      window.removeEventListener("wheel", reveal);
+      window.removeEventListener("touchmove", reveal);
+    };
+  }, [isCart]);
 
   const handleClick = (t: string) => {
     if (t === "user" && !user) {
@@ -34,7 +56,7 @@ export default function Dashboard() {
     <div className="dash-root">
       <Outlet />
 
-      <footer className="dash-base">
+      <footer className="dash-base" style={{ display: visible ? 'flex' : 'none' }}>
         <div className="dash-glass" style={{ left: style.left, width: style.width }} />
         {tabs.map((t, i) => (
           <span
