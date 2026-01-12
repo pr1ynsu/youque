@@ -1,6 +1,5 @@
 import "../styles/sheet.css";
 
-
 import facebook from "../assets/facebook.png";
 import instagram from "../assets/instagram.png";
 import twitter from "../assets/twitter.png";
@@ -20,10 +19,11 @@ export default function SocialSheet({
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
         <div className="sheet-handle" />
+
         <h3 className="sheet-title">Follow YouQue</h3>
+        <p className="sheet-tagline">Be part of the movement</p>
 
         <div className="sheet-grid">
-
           <div className="social-icon" onClick={() => window.open("https://facebook.com", "_blank")}>
             <img src={facebook} />
           </div>
