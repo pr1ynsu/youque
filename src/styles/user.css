@@ -1,0 +1,112 @@
+.user-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,71,21,0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.user-sheet {
+  width: 100%;
+  max-width: 360px;
+  background: linear-gradient(145deg, rgba(235,225,209,0.9), rgba(255,255,255,0.65));
+  backdrop-filter: blur(18px);
+  border-top-left-radius: 34px;
+  border-top-right-radius: 34px;
+  padding: 20px 18px 26px;
+  margin-bottom: 10px;
+  animation: userSlideUp 0.45s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 -14px 32px rgba(13,71,21,0.4);
+}
+
+.user-handle {
+  width: 38px;
+  height: 4px;
+  background: rgba(13,71,21,0.35);
+  border-radius: 12px;
+  margin: 0 auto 12px;
+}
+
+.user-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #0D4715;
+  margin-bottom: 12px;
+}
+
+.user-logo-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0D4715;
+  color: #EBE1D1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.user-sheet h3 {
+  text-align: center;
+  color: #0D4715;
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1px;
+  margin-bottom: 10px;
+}
+
+.user-row span {
+  width: 90px;
+  font-size: 12px;
+  color: rgba(13,71,21,0.75);
+}
+
+.user-row input,
+.user-row select {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(13,71,21,0.12);
+  color: #0D4715;
+}
+
+.user-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 18px;
+  background: #0D4715;
+  color: #EBE1D1;
+  border: none;
+  margin-top: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(13,71,21,0.35);
+}
+
+.user-logout {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(13,71,21,0.75);
+  cursor: pointer;
+}
+
+@keyframes userSlideUp {
+  from { transform: translateY(110%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

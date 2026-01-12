@@ -3,14 +3,14 @@ import { Settings, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const campuses = ["campus 01","campus 03","campus 06","campus 15","campus 17"];
+const campuses = ["Campus 03", "Campus 06", "Campus 15", "Campus 17"];
 
 export default function Cart() {
   const nav = useNavigate();
   const [fromOpen,setFromOpen] = useState(false);
   const [toOpen,setToOpen] = useState(false);
-  const [from,setFrom] = useState("campus 15");
-  const [to,setTo] = useState("campus 06");
+  const [from,setFrom] = useState("Campus 15");
+  const [to,setTo] = useState("Campus 06");
 
   return (
     <div className="cart-root">
@@ -18,56 +18,40 @@ export default function Cart() {
       <div className="cart-panel">
 
         <div className="cart-header">
-          <div className="cart-user">
-            <div className="cart-avatar">U</div>
-            <span>user</span>
-          </div>
-          <Settings size={20} />
+          <div className="cart-avatar">U</div>
+          <Settings size={18}/>
         </div>
 
-        <button className="cart-around" onClick={()=>nav("/cart-around")}>
-          cart around you
+        <button className="cart-action" onClick={()=>nav("/cart-around")}>
+          Cart around you
         </button>
 
         <div className="cart-route-box">
-
-          <div className="route-card">
-            <p>from</p>
-            <div className="route-select" onClick={()=>setFromOpen(!fromOpen)}>
-              {from} <ChevronDown size={14}/>
-            </div>
-            {fromOpen && (
-              <div className="route-menu">
-                {campuses.map(c=>(
-                  <span key={c} onClick={()=>{setFrom(c);setFromOpen(false);}}>{c}</span>
-                ))}
+          {[{label:"From",val:from,set:setFrom,open:fromOpen,setOpen:setFromOpen},
+            {label:"To",val:to,set:setTo,open:toOpen,setOpen:setToOpen}].map((r,i)=>(
+            <div className="route-card" key={i}>
+              <p>{r.label}</p>
+              <div className="route-select" onClick={()=>r.setOpen(!r.open)}>
+                {r.val} <ChevronDown size={14}/>
               </div>
-            )}
-          </div>
-
-          <div className="route-card">
-            <p>to</p>
-            <div className="route-select" onClick={()=>setToOpen(!toOpen)}>
-              {to} <ChevronDown size={14}/>
+              {r.open && (
+                <div className="route-menu">
+                  {campuses.map(c=>(
+                    <span key={c} onClick={()=>{r.set(c);r.setOpen(false);}}>{c}</span>
+                  ))}
+                </div>
+              )}
             </div>
-            {toOpen && (
-              <div className="route-menu">
-                {campuses.map(c=>(
-                  <span key={c} onClick={()=>{setTo(c);setToOpen(false);}}>{c}</span>
-                ))}
-              </div>
-            )}
-          </div>
-
+          ))}
         </div>
 
-        <button className="cart-break" onClick={()=>nav("/detail")}>
-          break - 02:00
+        <button className="cart-action" onClick={()=>nav("/detail")}>
+          Break – 02:00
         </button>
       </div>
 
       <div className="cart-map-frame">
-        <iframe src="https://www.google.com/maps?q=KIIT+Campus+6&output=embed" />
+        <iframe src="https://www.google.com/maps?q=KIIT+Campus+6&output=embed"/>
       </div>
     </div>
   );
