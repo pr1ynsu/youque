@@ -1,8 +1,8 @@
 import "../styles/detail.css";
-import { useState } from "react";
+
 
 export default function Detail() {
-  const [open, setOpen] = useState(false);
+ 
 
   const routine = [
     { time: "02:00", label: "Break" },
@@ -27,7 +27,7 @@ export default function Detail() {
         ))}
       </div>
 
-      <button className="report-btn" onClick={() => setOpen(true)}>
+      <button className="report-btn" >
         Report a Problem
       </button>
     </div>

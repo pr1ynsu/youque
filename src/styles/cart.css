@@ -4,15 +4,15 @@
   padding: 14px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-/* Floating green panel */
+/* Panel */
 .cart-panel {
-  background: #EBE1D1;
-  border-radius: 28px;
-  padding: 14px;
-  box-shadow: 0 10px 26px rgba(13,71,21,0.4);
-  color: #EBE1D1;
+  background: rgba(235,225,209,0.95);
+  border-radius: 30px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(13,71,21,0.35);
 }
 
 /* Header */
@@ -20,78 +20,173 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #0b3b11;
-}
-
-.cart-user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: #0D4715;
 }
 
 .cart-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #0b3b11;
+  width: 38px;
+  height: 38px;
+  background: #0D4715;
   color: #EBE1D1;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Capsules */
-.cart-around,
-.cart-break {
-  margin-top: 12px;
-  background: #0b3b11;
-  border-radius: 18px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.15);
+.cart-avatar:hover {
+  transform: scale(1.15) rotate(-6deg);
+  box-shadow: 0 6px 16px rgba(13,71,21,0.45);
+}
+
+/* Main Buttons */
+.cart-action {
+  margin-top: 14px;
+  background: #0D4715;
+  color: #EBE1D1;
+  border-radius: 24px;
+  padding: 14px;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.cart-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(13,71,21,0.45);
 }
 
 /* Route container */
 .cart-route-box {
   display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  background: #0b3b11;
-  padding: 10px;
-  border-radius: 20px;
+  gap: 14px;
+  margin-top: 16px;
 }
 
-/* From / To cards */
-.route-card {
+/* From / To capsules */
+.route-pill {
   flex: 1;
-  background: #0D4715;
-  border-radius: 18px;
-  padding: 10px;
+  background: rgba(13,71,21,0.12);
+  border: 1.6px solid rgba(13,71,21,0.45);
+  border-radius: 26px;
+  padding: 14px 10px;
   text-align: center;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.12);
+  cursor: pointer;
+  color: #0D4715;
+  transition: all 0.25s ease;
 }
 
-.route-card span {
+.route-pill:hover {
+  transform: scale(1.05);
+  background: rgba(13,71,21,0.18);
+}
+
+/* Inside text */
+.route-pill p {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  opacity: 0.65;
+  margin-bottom: 4px;
+}
+
+.route-pill span {
   display: block;
-  margin-top: 6px;
-  background: rgba(235,225,209,0.25);
-  border-radius: 14px;
-  padding: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-/* Map frame */
+/* Map */
 .cart-map-frame {
-  margin-top: 14px;
+  margin-top: 18px;
   flex: 1;
-  background: #fff;
-  border-radius: 28px;
+  border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 -6px 16px rgba(0,0,0,0.25);
+  box-shadow: 0 -6px 16px rgba(0,0,0,0.22);
 }
 
 .cart-map-frame iframe {
   width: 100%;
   height: 100%;
-  border: 0;
+  border: none;
+}
+
+/* Popup Backdrop */
+.center-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,71,21,0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Popup Sheet */
+.center-sheet {
+  width: 92%;
+  max-width: 380px;
+  background: linear-gradient(
+    145deg,
+    rgba(235,225,209,0.96),
+    rgba(255,255,255,0.72)
+  );
+  border-radius: 34px;
+  padding: 22px;
+  animation: centerPop 0.45s cubic-bezier(0.22,1,0.36,1);
+}
+
+.center-sheet h4 {
+  text-align: center;
+  color: #0D4715;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+/* Campus option */
+.picker-option {
+  padding: 14px;
+  background: rgba(13,71,21,0.12);
+  border-radius: 18px;
+  text-align: center;
+  margin-bottom: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.picker-option:hover {
+  background: rgba(13,71,21,0.22);
+  transform: scale(1.05);
+}
+
+/* Mini panels */
+.mini-panel {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(13,71,21,0.12);
+  text-align: center;
+  cursor: pointer;
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes centerPop {
+  from {
+    transform: translateY(80%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
