@@ -1,11 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-type Role = "student" | "driver" | null;
-
+export type Role = "student" | "driver" | "staff" | null;
 
 type AuthContextType = {
   user: User | null;
@@ -31,19 +29,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (currentUser) {
         try {
-          // 🔹 fetch role from Firestore
           const snap = await getDoc(doc(db, "users", currentUser.uid));
 
           if (snap.exists()) {
-            setRole((snap.data().userType as Role) || "student");
+            const dbRole = snap.data().userType as Role;
 
+            // ✅ only allowed roles
+            setRole(dbRole ?? "student");
           } else {
-            // default role if new account
-            setRole("user");
+            // ✅ default role
+            setRole("student");
           }
-        } catch (err) {
-          console.error("Role fetch failed:", err);
-          setRole("user");
+        } catch {
+          setRole("student");
         }
       } else {
         setRole(null);

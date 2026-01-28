@@ -1,5 +1,5 @@
 import { Search, MapPin } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "../styles/home.css";
 import cart from "../assets/cart.jpg";
 import appointment from "../assets/appointment.jpg";
