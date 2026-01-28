@@ -5,39 +5,37 @@
   color: #EBE1D1;
 }
 
-/* Routine title */
 .detail-title {
   font-size: 20px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-/* Timeline */
 .detail-timeline {
   position: relative;
-  padding-left: 24px;
-  margin-top: 10px;
+  padding-left: 28px;
 }
 
 .detail-line {
   position: absolute;
-  left: 8px;
+  left: 12px;
   top: 0;
   bottom: 0;
   width: 3px;
   background: rgba(235,225,209,0.4);
-  border-radius: 2px;
 }
 
 .detail-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 36px;
+  gap: 14px;
+  margin-bottom: 34px;
 }
 
 .detail-time {
-  width: 48px;
+  width: 54px;
   font-size: 14px;
+  opacity: 0.9;
 }
 
 .detail-point {
@@ -48,21 +46,24 @@
 }
 
 .detail-label {
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* Report Button */
 .report-btn {
   position: fixed;
-  bottom: 64px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
   width: 86%;
-  background: rgba(235,225,209,0.7);
+  background: rgba(235,225,209,0.9);
   color: #8B0000;
-  border-radius: 28px;
+  border-radius: 30px;
   padding: 14px;
-  font-size: 16px;
   border: none;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease;
+}
+
+.report-btn:hover {
+  transform: translateX(-50%) scale(1.03);
 }

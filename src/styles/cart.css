@@ -190,3 +190,55 @@
     opacity: 1;
   }
 }
+
+/* ===== Title ===== */
+.cart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0D4715;
+  margin-bottom: 14px;
+}
+
+/* ===== Info row ===== */
+.cart-info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #0D4715;
+  opacity: 0.8;
+}
+
+/* ===== Driver styles ===== */
+.driver {
+  border: 2px solid rgba(13,71,21,0.35);
+}
+
+.driver-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat-box {
+  flex: 1;
+  padding: 10px;
+  background: rgba(13,71,21,0.12);
+  border-radius: 16px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.start {
+  background: #0D4715;
+}
+
+.stop {
+  background: #8B0000;
+}
+
+.secondary {
+  margin-top: 8px;
+  background: rgba(13,71,21,0.12);
+  color: #0D4715;
+}

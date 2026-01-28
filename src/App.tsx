@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Cart from "./pages/Cart";
+import Appointment from "./pages/appointment";
 import User from "./pages/User";
 import Company from "./pages/Company";
 import Customer from "./pages/Customer";
@@ -20,6 +21,7 @@ export default function App() {
       <Route element={<Dashboard />}>
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/appointment" element={<Appointment />} />
         <Route path="/cart-around" element={<CartAround />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/user" element={<User />} />

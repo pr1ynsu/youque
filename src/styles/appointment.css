@@ -1,0 +1,61 @@
+.appointment-root {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0D4715, #062b0d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.appointment-card {
+  background: rgba(235,225,209,0.95);
+  border-radius: 26px;
+  padding: 36px 26px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+  animation: floatUp 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+
+.appointment-icon {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.appointment-card h2 {
+  color: #0D4715;
+  margin-bottom: 8px;
+}
+
+.appointment-tagline {
+  font-size: 14px;
+  color: rgba(13,71,21,0.75);
+  line-height: 1.5;
+}
+
+.appointment-divider {
+  width: 60px;
+  height: 3px;
+  background: rgba(13,71,21,0.35);
+  border-radius: 4px;
+  margin: 20px auto;
+}
+
+.appointment-soon {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #0D4715;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(40px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}

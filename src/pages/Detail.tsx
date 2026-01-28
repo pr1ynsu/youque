@@ -1,9 +1,6 @@
 import "../styles/detail.css";
 
-
 export default function Detail() {
- 
-
   const routine = [
     { time: "02:00", label: "Break" },
     { time: "03:00", label: "Campus 06" },
@@ -13,7 +10,7 @@ export default function Detail() {
 
   return (
     <div className="detail-root">
-      <div className="detail-title">Routine</div>
+      <div className="detail-title">Today’s Cart Routine</div>
 
       <div className="detail-timeline">
         <div className="detail-line" />
@@ -27,9 +24,7 @@ export default function Detail() {
         ))}
       </div>
 
-      <button className="report-btn" >
-        Report a Problem
-      </button>
+      <button className="report-btn">Report a Problem</button>
     </div>
   );
 }

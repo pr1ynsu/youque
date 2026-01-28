@@ -11,7 +11,8 @@ import { fetchCityData } from "../services/locationService";
 
 export default function Home() {
   const nav = useNavigate();
-  const { user } = useAuth();
+  const { user, role } = useAuth();
+
 
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -79,7 +80,10 @@ export default function Home() {
           )}
 
           {user ? (
-            <div className="user-circle-only" onClick={() => nav("/user")}>U</div>
+            <div className="user-circle-only" onClick={() => nav("/user")}>
+  {role === "driver" ? "D" : "U"}
+</div>
+
           ) : (
             <button className="btn-signin" onClick={() => setAuthOpen(true)}>
               Sign In
@@ -124,7 +128,7 @@ export default function Home() {
           <p>Cart Service</p>
         </div>
 
-        <div className="service-card">
+        <div className="service-card" onClick={() => nav("/appointment")}>
           <div className="image-box"><img src={appointment}/></div>
           <p>Appointment Service</p>
         </div>

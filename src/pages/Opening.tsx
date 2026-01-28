@@ -13,7 +13,7 @@ export default function Opening() {
       nav("/home");
       document.documentElement.style.overflow = "auto";
       document.body.style.overflow = "auto";
-    }, 10000);
+    }, 8000);
 
     return () => {
       clearTimeout(timer);
