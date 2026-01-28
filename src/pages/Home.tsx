@@ -1,5 +1,5 @@
 import { Search, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import "../styles/home.css";
 import cart from "../assets/cart.jpg";
 import appointment from "../assets/appointment.jpg";
@@ -11,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Home() {
   const nav = useNavigate();
   const { user, role } = useAuth();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
 
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -175,7 +176,15 @@ export default function Home() {
       )}
 
       <DownloadSheet open={downloadOpen} onClose={() => setDownloadOpen(false)} />
-      <AuthSheet open={authOpen} mode="signin" onClose={() => setAuthOpen(false)} />
+      <AuthSheet
+        open={authOpen}
+        mode={mode}
+        onClose={() => setAuthOpen(false)}
+        onSwitch={() =>
+          setMode(m => (m === "signin" ? "signup" : "signin"))
+        }
+      />
+
     </div>
   );
 }

@@ -4,7 +4,8 @@ import type { User } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-type Role = "user" | "driver" | null;
+type Role = "student" | "driver" | null;
+
 
 type AuthContextType = {
   user: User | null;
@@ -34,7 +35,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const snap = await getDoc(doc(db, "users", currentUser.uid));
 
           if (snap.exists()) {
-            setRole((snap.data().role as Role) || "user");
+            setRole((snap.data().userType as Role) || "student");
+
           } else {
             // default role if new account
             setRole("user");
