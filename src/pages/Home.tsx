@@ -1,5 +1,5 @@
 import { Search, MapPin } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import "../styles/home.css";
 import cart from "../assets/cart.jpg";
 import appointment from "../assets/appointment.jpg";
@@ -7,65 +7,43 @@ import DownloadSheet from "../components/DownloadSheet";
 import AuthSheet from "../components/AuthSheet";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { fetchCityData } from "../services/locationService";
 
 export default function Home() {
   const nav = useNavigate();
   const { user, role } = useAuth();
 
-
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
 
-  const [campuses, setCampuses] = useState<string[]>([]);
-  const [services, setServices] = useState<string[]>([]);
-  const [loopText, setLoopText] = useState("Location");
+  /* NEW SHEETS */
+  const [serviceSheet, setServiceSheet] = useState(false);
+  const [locationSheet, setLocationSheet] = useState(false);
 
-  const [showSearch, setShowSearch] = useState(false);
-  const [showCampuses, setShowCampuses] = useState(false);
+  const [location, setLocation] = useState("Location");
+  const [query, setQuery] = useState("");
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const services = [
+    { label: "Cart Service", path: "/cart" },
+    { label: "Appointment", path: "/appointment" },
+  ];
 
-  useEffect(() => {
-    const close = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setShowSearch(false);
-        setShowCampuses(false);
-      }
-    };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
-  }, []);
+  const campuses = [
+    "Campus 03",
+    "Campus 06",
+    "Campus 15",
+    "Campus 17",
+  ];
 
-  const loadLocation = async () => {
-    navigator.geolocation.getCurrentPosition(async () => {
-      const city = "bhubaneswar";
-
-      const data = await fetchCityData(city);
-      if (!data) return;
-
-      setCampuses(data.campuses || []);
-      setServices(data.services || []);
-      setShowCampuses(true);
-    });
-  };
-
-  useEffect(() => {
-    if (!campuses.length) return;
-    let i = 0;
-
-    const loop = setInterval(() => {
-      setLoopText(campuses[i]);
-      i = (i + 1) % campuses.length;
-    }, 3000);
-
-    return () => clearInterval(loop);
-  }, [campuses]);
+  /* role avatar letter */
+  const avatarLetter =
+    role === "driver" ? "D" :
+    role === "student" ? "S" :
+    "U";
 
   return (
     <div className="home-root">
 
+      {/* ---------------- HEADER ---------------- */}
       <div className="home-header">
         <div className="youque-logo">
           <div className="logo-circle">Q</div>
@@ -74,54 +52,59 @@ export default function Home() {
 
         <div className="home-actions">
           {!user && (
-            <button className="btn-download" onClick={() => setDownloadOpen(true)}>
+            <button
+              className="btn-download"
+              onClick={() => setDownloadOpen(true)}
+            >
               Download
             </button>
           )}
 
           {user ? (
-            <div className="user-circle-only" onClick={() => nav("/user")}>
-  {role === "driver" ? "D" : "U"}
-</div>
-
+            <div
+              className="user-circle-only"
+              onClick={() => nav("/user")}
+            >
+              {avatarLetter}
+            </div>
           ) : (
-            <button className="btn-signin" onClick={() => setAuthOpen(true)}>
+            <button
+              className="btn-signin"
+              onClick={() => setAuthOpen(true)}
+            >
               Sign In
             </button>
           )}
         </div>
       </div>
 
+      {/* ---------------- TITLE ---------------- */}
       <h2 className="home-title">
-        Book appointment or discover services. Skip the queue with YouQue!
+        Skip the queue.  
+        Book faster.  
+        Move smarter.
       </h2>
 
+      {/* ---------------- MAIN BUTTONS ---------------- */}
       <div className="home-main-btns">
-        <button className="icon-btn" onClick={() => setShowSearch(!showSearch)}>
-          <Search size={18}/> Search
+
+        <button
+          className="icon-btn"
+          onClick={() => setServiceSheet(true)}
+        >
+          <Search size={18}/> Services
         </button>
 
-        <button className="icon-btn" onClick={loadLocation}>
-          <MapPin size={18} /> {loopText}
+        <button
+          className="icon-btn"
+          onClick={() => setLocationSheet(true)}
+        >
+          <MapPin size={18}/> {location}
         </button>
+
       </div>
 
-      {showSearch && (
-        <div ref={dropdownRef} className="glass-dropdown">
-          {services.map(s => (
-            <p key={s} onClick={() => setShowSearch(false)}>{s}</p>
-          ))}
-        </div>
-      )}
-
-      {showCampuses && (
-        <div ref={dropdownRef} className="glass-dropdown">
-          {campuses.map(c => (
-            <p key={c} onClick={() => setShowCampuses(false)}>{c}</p>
-          ))}
-        </div>
-      )}
-
+      {/* ---------------- CARDS ---------------- */}
       <div className="service-column">
         <div className="service-card" onClick={() => nav("/cart")}>
           <div className="image-box"><img src={cart}/></div>
@@ -130,22 +113,69 @@ export default function Home() {
 
         <div className="service-card" onClick={() => nav("/appointment")}>
           <div className="image-box"><img src={appointment}/></div>
-          <p>Appointment Service</p>
-        </div>
-
-        <div className="service-card coming-soon">
-          <div className="coming-box">Coming Soon</div>
-          <p>More services coming</p>
+          <p>Appointment</p>
         </div>
       </div>
 
+
+      {/* ================================================= */}
+      {/* SERVICE SHEET (bottom popup like rapido) */}
+      {/* ================================================= */}
+      {serviceSheet && (
+        <div className="sheet-backdrop" onClick={() => setServiceSheet(false)}>
+          <div className="sheet" onClick={e => e.stopPropagation()}>
+            <h4>Select Service</h4>
+
+            {services.map(s => (
+              <div
+                key={s.label}
+                className="sheet-option"
+                onClick={() => nav(s.path)}
+              >
+                {s.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ================================================= */}
+      {/* LOCATION SHEET */}
+      {/* ================================================= */}
+      {locationSheet && (
+        <div className="sheet-backdrop" onClick={() => setLocationSheet(false)}>
+          <div className="sheet" onClick={e => e.stopPropagation()}>
+            <h4>Choose Location</h4>
+
+            <input
+              className="sheet-input"
+              placeholder="Search campus..."
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+
+            {campuses
+              .filter(c =>
+                c.toLowerCase().includes(query.toLowerCase())
+              )
+              .map(c => (
+                <div
+                  key={c}
+                  className="sheet-option"
+                  onClick={() => {
+                    setLocation(c);
+                    setLocationSheet(false);
+                  }}
+                >
+                  {c}
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
       <DownloadSheet open={downloadOpen} onClose={() => setDownloadOpen(false)} />
-      <AuthSheet
-        open={authOpen}
-        mode={mode}
-        onClose={() => setAuthOpen(false)}
-        onSwitch={() => setMode(mode === "signin" ? "signup" : "signin")}
-      />
+      <AuthSheet open={authOpen} mode="signin" onClose={() => setAuthOpen(false)} />
     </div>
   );
 }
