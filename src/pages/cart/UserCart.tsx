@@ -1,5 +1,5 @@
 import "../../styles/cart.css";
-import { MapPin, Clock, Users, Navigation } from "lucide-react";
+import { MapPin, Clock, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase";

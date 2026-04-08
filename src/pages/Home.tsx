@@ -88,7 +88,7 @@ export default function Home() {
 
         <div className="service-card" onClick={() => {
   if (role === "driver") nav("/driver");
-  else if (role === "admin") nav("/admin");
+  else if (role === "staff") nav("/admin");
   else nav("/cart");
 }}>
           <div className="image-box">

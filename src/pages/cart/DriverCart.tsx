@@ -19,7 +19,7 @@ export default function DriverCart() {
 
   const [route, setRoute] = useState("Not Assigned");
   const [timing, setTiming] = useState("-");
-  const [seats, setSeats] = useState(0);
+  const [seats] = useState(0);
 
   const user = auth.currentUser;
 
