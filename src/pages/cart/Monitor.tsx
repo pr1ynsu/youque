@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import safeRender from "../../../utils/safeRender";
 import { db } from "../../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import "../../styles/monitor.css";
@@ -36,8 +37,8 @@ export default function Monitor() {
           cart.lat && (
             <Marker key={cart.id} position={[cart.lat, cart.lng]}>
               <Popup>
-                🚗 {cart.route} <br />
-                Status: {cart.status}
+                🚗 {safeRender(cart.route)} <br />
+                Status: {safeRender(cart.status)}
               </Popup>
             </Marker>
           )
@@ -48,9 +49,9 @@ export default function Monitor() {
       <div className="monitor-list">
         {carts.map(cart => (
           <div key={cart.id} className="monitor-card">
-            <p>{cart.route}</p>
-            <span className={`status ${cart.status}`}>
-              {cart.status}
+            <p>{safeRender(cart.route)}</p>
+            <span className={`status ${safeRender(cart.status)}`}>
+              {safeRender(cart.status)}
             </span>
           </div>
         ))}

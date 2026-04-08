@@ -3,7 +3,10 @@
   margin: auto;
   padding: 20px;
   background: #EBE1D1;
-  min-height: 100vh;
+
+  height: 100vh;              /* FIX */
+  display: flex;              /* FIX */
+  flex-direction: column;     /* FIX */
 }
 
 .staff-title {
@@ -12,10 +15,17 @@
   margin-bottom: 16px;
 }
 
+/* 🔥 TABS ALWAYS VISIBLE */
 .staff-tabs {
   display: flex;
   gap: 8px;
   margin-bottom: 14px;
+
+  flex-shrink: 0;            /* FIX */
+  position: sticky;          /* OPTIONAL IMPROVEMENT */
+  top: 0;
+  background: #EBE1D1;
+  z-index: 10;
 }
 
 .staff-tabs button {
@@ -25,6 +35,7 @@
   border: none;
   background: rgba(13,71,21,0.1);
   cursor: pointer;
+  font-weight: 500;
 }
 
 .staff-tabs button.active {
@@ -32,8 +43,12 @@
   color: #EBE1D1;
 }
 
+/* 🔥 CONTENT SCROLL FIX */
 .staff-content {
   background: rgba(255,255,255,0.6);
   border-radius: 16px;
   padding: 12px;
+
+  flex: 1;              /* FIX */
+  overflow-y: auto;     /* FIX */
 }

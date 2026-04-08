@@ -12,18 +12,52 @@ export default function StaffCart() {
 
       <h2 className="staff-title">Admin Dashboard</h2>
 
+      {/* 🔥 TABS */}
       <div className="staff-tabs">
-        <button className={tab==="control"?"active":""} onClick={()=>setTab("control")}>Control</button>
-        <button className={tab==="monitor"?"active":""} onClick={()=>setTab("monitor")}>Monitor</button>
-        <button className={tab==="booking"?"active":""} onClick={()=>setTab("booking")}>Booking</button>
+        <button
+          className={tab === "control" ? "active" : ""}
+          onClick={() => setTab("control")}
+        >
+          Control
+        </button>
+
+        <button
+          className={tab === "monitor" ? "active" : ""}
+          onClick={() => setTab("monitor")}
+        >
+          Monitor
+        </button>
+
+        <button
+          className={tab === "booking" ? "active" : ""}
+          onClick={() => setTab("booking")}
+        >
+          Booking
+        </button>
       </div>
 
+      {/* 🔥 CONTENT */}
       <div className="staff-content">
-        {tab==="control" && <Admin />}
-        {tab==="monitor" && <Tracking />}
-        {tab==="booking" && <UserCart />}
-      </div>
 
+        {tab === "control" && (
+          <div style={{ height: "100%" }}>
+            <Admin />
+          </div>
+        )}
+
+        {tab === "monitor" && (
+          <div style={{ height: "100%" }}>
+            <Tracking />
+          </div>
+        )}
+
+        {tab === "booking" && (
+          <div style={{ height: "100%" }}>
+            <UserCart />
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

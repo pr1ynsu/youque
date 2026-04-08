@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+
 import Opening from "./pages/Opening";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -10,19 +11,25 @@ import Company from "./pages/Company";
 import Customer from "./pages/Customer";
 import CartAround from "./pages/CartAround";
 import Detail from "./pages/Detail";
-import Driver from "./pages/Driver";
 import Admin from "./pages/Admin";
+
+/* ✅ IMPORTANT: USE NEW DRIVER */
+import DriverCart from "./pages/cart/DriverCart";
 
 export default function App() {
   return (
     <Routes>
+      {/* PUBLIC ROUTES */}
       <Route path="/" element={<Opening />} />
       <Route path="/signin" element={<SignIn />} />
 
-      {/* Layout wrapper */}
+      {/* DASHBOARD LAYOUT */}
       <Route element={<Dashboard />}>
-      <Route path="/driver" element={<Driver />} />
-      <Route path="/admin" element={<Admin />} />
+
+        {/* ✅ FIXED DRIVER ROUTE */}
+        <Route path="/driver" element={<DriverCart />} />
+
+        <Route path="/admin" element={<Admin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/appointment" element={<Appointment />} />
@@ -33,6 +40,7 @@ export default function App() {
         <Route path="/customer" element={<Customer />} />
       </Route>
 
+      {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

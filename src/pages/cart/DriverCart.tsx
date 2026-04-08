@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useUI } from "../../context/UIContext";
 
-import { auth, db } from "../../firebase";
+import { db } from "../../firebase";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 
 export default function DriverCart() {
@@ -14,41 +14,37 @@ export default function DriverCart() {
   const [running, setRunning] = useState(false);
   const [sheet, setSheet] = useState<"user" | "settings" | null>(null);
 
+  const [cartId, setCartId] = useState("cart1"); // 🔥 SELECT CART
   const [status, setStatus] = useState("available");
   const [location, setLocation] = useState<any>(null);
 
   const [route, setRoute] = useState("Not Assigned");
   const [timing, setTiming] = useState("-");
-  const [seats] = useState(0);
-
-  const user = auth.currentUser;
+  const [seats, setSeats] = useState(10);
 
   // 🔥 RECEIVE ADMIN DATA
   useEffect(() => {
-    if (!user) return;
-
-    const unsub = onSnapshot(doc(db, "carts", user.uid), (snap) => {
+    const unsub = onSnapshot(doc(db, "carts", cartId), (snap) => {
       const data = snap.data();
       if (!data) return;
 
       setRoute(data.route || "Not Assigned");
       setTiming(data.timing || "-");
       setStatus(data.status || "available");
+      setSeats(data.seats ?? 10);
     });
 
     return () => unsub();
-  }, [user]);
+  }, [cartId]);
 
-  // 🔥 SEND GPS
-  const updateCart = async (lat: number, lng: number) => {
-    if (!user) return;
-
+  // 🔥 UPDATE FIRESTORE
+  const updateCart = async (lat: number, lng: number, newStatus = status) => {
     await setDoc(
-      doc(db, "carts", user.uid),
+      doc(db, "carts", cartId),
       {
-        lat,
-        lng,
-        status,
+        location: { lat, lng },
+        status: newStatus,
+        seats,
       },
       { merge: true }
     );
@@ -69,7 +65,7 @@ export default function DriverCart() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [running, status]);
+  }, [running, status, seats]);
 
   // UI
   const closeAll = () => {
@@ -87,9 +83,21 @@ export default function DriverCart() {
 
       {/* HEADER */}
       <div className="driver-header">
-        <div className="driver-avatar" onClick={() => openModal("user")}>D</div>
+        <div className="driver-avatar">D</div>
         <Settings size={20} onClick={() => openModal("settings")} />
       </div>
+
+      {/* 🔥 CART SELECT */}
+      <select
+        value={cartId}
+        onChange={(e) => setCartId(e.target.value)}
+        className="driver-select"
+      >
+        <option value="cart1">Cart 1</option>
+        <option value="cart2">Cart 2</option>
+        <option value="cart3">Cart 3</option>
+        <option value="cart4">Cart 4</option>
+      </select>
 
       {/* MAIN CARD */}
       <div className="driver-main-card">
@@ -109,74 +117,45 @@ export default function DriverCart() {
         {running ? " Stop Route" : " Start Route"}
       </button>
 
-      {/* STATUS BUTTONS */}
+      {/* STATUS */}
       <div className="driver-status-row">
-        <button
-          className={status === "available" ? "active" : ""}
-          onClick={() => {
-            setStatus("available");
-            navigator.vibrate?.(50);
-          }}
-        >
-          Available
-        </button>
-
-        <button
-          className={status === "few" ? "active" : ""}
-          onClick={() => {
-            setStatus("few");
-            navigator.vibrate?.(50);
-          }}
-        >
-          Few
-        </button>
-
-        <button
-          className={status === "full" ? "active" : ""}
-          onClick={() => {
-            setStatus("full");
-            navigator.vibrate?.(50);
-          }}
-        >
-          Full
-        </button>
+        {["available", "few", "full", "break", "issue"].map((s) => (
+          <button
+            key={s}
+            className={status === s ? "active" : ""}
+            onClick={() => {
+              setStatus(s);
+              updateCart(location?.lat || 0, location?.lng || 0, s);
+            }}
+          >
+            {s}
+          </button>
+        ))}
       </div>
 
-      {/* INFO */}
+      {/* SEATS */}
       <div className="driver-info-card">
-        <p><b>Seats:</b> {seats}/12</p>
-        <p><b>Live:</b> {running ? "Running" : "Stopped"}</p>
+        <p><b>Seats Left:</b> {seats}</p>
+
+        <input
+          type="range"
+          min="0"
+          max="12"
+          value={seats}
+          onChange={(e) => setSeats(Number(e.target.value))}
+        />
       </div>
 
       {/* MAP */}
       <div className="driver-map">
-        {location ? (
-          <iframe
-            src={`https://www.google.com/maps?q=${location.lat},${location.lng}&output=embed`}
-          />
-        ) : (
-          <iframe src="https://www.google.com/maps?q=KIIT&output=embed" />
-        )}
+        <iframe
+          src={
+            location
+              ? `https://www.google.com/maps?q=${location.lat},${location.lng}&output=embed`
+              : `https://www.google.com/maps?q=KIIT&output=embed`
+          }
+        />
       </div>
-
-      {/* MODAL */}
-      {sheet && (
-        <div className="center-backdrop" onClick={closeAll}>
-          <div className="center-sheet" onClick={(e) => e.stopPropagation()}>
-            <h4>Menu</h4>
-
-            {sheet === "user" && (
-              <div className="mini-panel" onClick={() => nav("/user")}>
-                Driver Profile
-              </div>
-            )}
-
-            {sheet === "settings" && (
-              <div className="mini-panel">Settings coming soon</div>
-            )}
-          </div>
-        </div>
-      )}
 
     </div>
   );

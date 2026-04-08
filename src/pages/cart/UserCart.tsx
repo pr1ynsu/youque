@@ -2,6 +2,7 @@ import "../../styles/cart.css";
 import { MapPin, Clock, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import safeRender from "../../utils/safeRender"; 
 import { db } from "../../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 
@@ -31,7 +32,7 @@ export default function UserCart() {
   }, []);
 
   // 🎯 FILTER BASED ON ROUTE
-  const filtered = carts.filter(c => c.from === from && c.to === to);
+  const filtered = carts;
 
   // 🚀 BOOK FUNCTION
   const handleBook = (cart: any) => {
@@ -76,14 +77,14 @@ export default function UserCart() {
             <div key={cart.id} className="cart-card">
 
               <div className="cart-header">
-                <h4>{cart.from} → {cart.to}</h4>
-                <span className={`status ${cart.status}`}>
-                  {cart.status}
+                <h4>{safeRender(cart.from)} → {safeRender(cart.to)}</h4>
+                <span className={`status ${safeRender(cart.status)}`}>
+                  {safeRender(cart.status)}
                 </span>
               </div>
 
-              <p>🪑 Seats: {cart.seats}</p>
-              <p>⏱ ETA: {cart.eta || "4 mins"}</p>
+              <p>🪑 Seats: {safeRender(cart.seats)}</p>
+              <p>⏱ ETA: {safeRender(cart.eta) || "4 mins"}</p>
 
               <button onClick={() => handleBook(cart)}>
                 Book Ride
@@ -118,10 +119,10 @@ export default function UserCart() {
           src={`https://www.google.com/maps?q=${from}+KIIT+to+${to}&output=embed`}
         />
 
-        {/* 🔥 LIVE DRIVER OVERLAY */}
+        {/* 🔥 LIVE DRIVER OVERLAY */ }
         {filtered.map(cart => (
-          <div key={cart.id} className="map-driver">
-            🚗 {cart.id}
+          <div key={safeRender(cart.id)} className="map-driver">
+            🚗 {safeRender(cart.id)}
           </div>
         ))}
 
@@ -153,9 +154,9 @@ export default function UserCart() {
       {selectedCart && (
         <div className="live-track">
           <h4>Live Ride</h4>
-          <p>Driver: {selectedCart.id}</p>
-          <p>Status: {selectedCart.status}</p>
-          <p>Seats Left: {selectedCart.seats}</p>
+          <p>Driver: {safeRender(selectedCart.id)}</p>
+          <p>Status: {safeRender(selectedCart.status)}</p>
+          <p>Seats Left: {safeRender(selectedCart.seats)}</p>
           <span className="live-dot"></span>
         </div>
       )}

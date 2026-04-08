@@ -1,13 +1,18 @@
 * {
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
 }
 
+/* ROOT */
 .driver-root {
   max-width: 420px;
   margin: auto;
-  padding: 16px;
-  background: #EBE1D1;
+  padding: 18px;
+  background: linear-gradient(180deg, #EBE1D1, #e4d9c6);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 /* HEADER */
@@ -18,8 +23,8 @@
 }
 
 .driver-avatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background: #0D4715;
   color: #EBE1D1;
   border-radius: 50%;
@@ -27,93 +32,132 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  box-shadow: 0 4px 10px rgba(13,71,21,0.3);
+}
+
+/* SELECT */
+.driver-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 16px;
+  border: none;
+  background: rgba(13,71,21,0.08);
+  font-weight: 500;
+  outline: none;
 }
 
 /* MAIN CARD */
 .driver-main-card {
-  margin-top: 16px;
-  background: #0D4715;
+  background: linear-gradient(135deg, #0D4715, #146b20);
   color: #EBE1D1;
-  padding: 18px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(13,71,21,0.4);
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(13,71,21,0.4);
 }
 
 .label {
   font-size: 12px;
-  opacity: 0.8;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
 }
 
 .sub {
   font-size: 13px;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
+.driver-main-card h3 {
+  margin: 6px 0;
+  font-size: 20px;
+}
+
+/* STATUS PILL */
 .status-pill {
-  margin-top: 10px;
+  margin-top: 12px;
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.2);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.15);
+  font-size: 13px;
+  backdrop-filter: blur(6px);
 }
 
-/* BUTTON */
+/* START BUTTON */
 .driver-toggle {
   width: 100%;
-  margin-top: 14px;
-  padding: 14px;
-  border-radius: 18px;
+  padding: 15px;
+  border-radius: 20px;
   border: none;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .driver-toggle.start {
-  background: #0D4715;
+  background: linear-gradient(135deg, #0D4715, #1c7c2b);
   color: white;
 }
 
 .driver-toggle.stop {
-  background: #b00020;
+  background: linear-gradient(135deg, #b00020, #ff3b5c);
   color: white;
 }
 
-/* STATUS */
+/* STATUS BUTTONS */
 .driver-status-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-top: 12px;
 }
 
 .driver-status-row button {
-  flex: 1;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
-  background: rgba(13,71,21,0.1);
+  background: rgba(13,71,21,0.08);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.driver-status-row button:hover {
+  transform: scale(1.05);
 }
 
 .driver-status-row button.active {
   background: #0D4715;
   color: white;
+  box-shadow: 0 6px 15px rgba(13,71,21,0.3);
 }
 
-/* INFO */
+/* INFO CARD */
 .driver-info-card {
-  margin-top: 12px;
-  background: rgba(255,255,255,0.6);
-  padding: 12px;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  padding: 14px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.driver-info-card p {
+  margin-bottom: 8px;
+}
+
+/* SLIDER */
+.driver-info-card input {
+  width: 100%;
+  margin-top: 6px;
 }
 
 /* MAP */
 .driver-map {
-  margin-top: 14px;
-  height: 200px;
-  border-radius: 18px;
+  height: 220px;
+  border-radius: 22px;
   overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .driver-map iframe {

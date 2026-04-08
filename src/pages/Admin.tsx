@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
+import safeRender from "../utils/safeRender";
 import "../styles/admin.css";
 
 export default function Admin() {
@@ -95,13 +96,13 @@ export default function Admin() {
           <div key={c.id} className="admin-row">
 
             <div>
-              <p className="route">{c.route || "No Route"}</p>
-              <p className="sub">{c.timing || "No Timing"}</p>
-              <p className="sub">Driver: {c.id.slice(0, 6)}</p>
+              <p className="route">{safeRender(c.route) || "No Route"}</p>
+              <p className="sub">{safeRender(c.timing) || "No Timing"}</p>
+              <p className="sub">Driver: {safeRender(c.id)?.slice(0, 6) || c.id?.slice(0, 6) || "------"}</p>
             </div>
 
-            <span className={`status ${c.status || "available"}`}>
-              {c.status || "available"}
+            <span className={`status ${safeRender(c.status) || "available"}`}>
+              {safeRender(c.status) || "available"}
             </span>
 
           </div>
