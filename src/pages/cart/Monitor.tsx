@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import safeRender from "../../../utils/safeRender";
+import safeRender from "../../utils/safeRender";
 import { db } from "../../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import "../../styles/monitor.css";

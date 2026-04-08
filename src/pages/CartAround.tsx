@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import safeRender from "../utils/safeRender";
 
 export default function CartAround() {
-  const [drivers, setDrivers] = useState<any>({});
+  const [drivers] = useState<any>({});
 
   useEffect(() => {
     // socket.on("updateDrivers", (data) => {

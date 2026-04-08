@@ -1,6 +1,5 @@
 import "../../styles/driver.css";
 import { Settings, Play, StopCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useUI } from "../../context/UIContext";
 
@@ -8,13 +7,11 @@ import { db } from "../../firebase";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 
 export default function DriverCart() {
-  const nav = useNavigate();
   const { setModalOpen } = useUI();
 
   const [running, setRunning] = useState(false);
-  const [sheet, setSheet] = useState<"user" | "settings" | null>(null);
 
-  const [cartId, setCartId] = useState("cart1"); // 🔥 SELECT CART
+  const [cartId, setCartId] = useState("cart1");
   const [status, setStatus] = useState("available");
   const [location, setLocation] = useState<any>(null);
 
@@ -38,13 +35,18 @@ export default function DriverCart() {
   }, [cartId]);
 
   // 🔥 UPDATE FIRESTORE
-  const updateCart = async (lat: number, lng: number, newStatus = status) => {
+  const updateCart = async (
+    lat: number,
+    lng: number,
+    newStatus = status,
+    newSeats = seats
+  ) => {
     await setDoc(
       doc(db, "carts", cartId),
       {
         location: { lat, lng },
         status: newStatus,
-        seats,
+        seats: newSeats,
       },
       { merge: true }
     );
@@ -67,15 +69,9 @@ export default function DriverCart() {
     return () => clearInterval(interval);
   }, [running, status, seats]);
 
-  // UI
-  const closeAll = () => {
-    setSheet(null);
-    setModalOpen(false);
-  };
-
-  const openModal = (type: "user" | "settings") => {
+  // 🔥 OPEN MODAL (FIXED)
+  const openModal = () => {
     setModalOpen(true);
-    setSheet(type);
   };
 
   return (
@@ -84,10 +80,10 @@ export default function DriverCart() {
       {/* HEADER */}
       <div className="driver-header">
         <div className="driver-avatar">D</div>
-        <Settings size={20} onClick={() => openModal("settings")} />
+        <Settings size={20} onClick={openModal} />
       </div>
 
-      {/* 🔥 CART SELECT */}
+      {/* CART SELECT */}
       <select
         value={cartId}
         onChange={(e) => setCartId(e.target.value)}
@@ -105,7 +101,9 @@ export default function DriverCart() {
         <h3>{route}</h3>
         <p className="sub">{timing}</p>
 
-        <div className="status-pill">{status}</div>
+        <div className={`status-pill ${status}`}>
+          {status}
+        </div>
       </div>
 
       {/* START / STOP */}
@@ -117,18 +115,29 @@ export default function DriverCart() {
         {running ? " Stop Route" : " Start Route"}
       </button>
 
-      {/* STATUS */}
+      {/* 🔥 PREMIUM STATUS BUTTONS */}
       <div className="driver-status-row">
-        {["available", "few", "full", "break", "issue"].map((s) => (
+        {[
+          { key: "available", label: "Available" },
+          { key: "few", label: "Few" },
+          { key: "full", label: "Full" },
+          { key: "break", label: "Break" },
+          { key: "issue", label: "Issue" },
+        ].map((item) => (
           <button
-            key={s}
-            className={status === s ? "active" : ""}
+            key={item.key}
+            className={`status-btn ${status === item.key ? "active" : ""}`}
             onClick={() => {
-              setStatus(s);
-              updateCart(location?.lat || 0, location?.lng || 0, s);
+              setStatus(item.key);
+              updateCart(
+                location?.lat || 0,
+                location?.lng || 0,
+                item.key
+              );
             }}
           >
-            {s}
+            <span className="dot"></span>
+            {item.label}
           </button>
         ))}
       </div>
@@ -142,7 +151,11 @@ export default function DriverCart() {
           min="0"
           max="12"
           value={seats}
-          onChange={(e) => setSeats(Number(e.target.value))}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            setSeats(val);
+            updateCart(location?.lat || 0, location?.lng || 0, status, val);
+          }}
         />
       </div>
 
