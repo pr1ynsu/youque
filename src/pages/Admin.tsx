@@ -1,113 +1,172 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
-import safeRender from "../utils/safeRender";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc
+} from "firebase/firestore";
 import "../styles/admin.css";
 
 export default function Admin() {
-  const [driverId, setDriverId] = useState("");
-  const [route, setRoute] = useState("");
-  const [timing, setTiming] = useState("");
+  const [campuses, setCampuses] = useState<any[]>([]);
+  const [routes, setRoutes] = useState<any[]>([]);
   const [carts, setCarts] = useState<any[]>([]);
 
-  // 🔥 ASSIGN ROUTE TO DRIVER
-  const assign = async () => {
-    if (!driverId || !route || !timing) {
-      alert("Fill all fields");
-      return;
-    }
+  const [routeName, setRouteName] = useState("");
+  const [selectedStops, setSelectedStops] = useState<string[]>([]);
 
-    await setDoc(
-      doc(db, "carts", driverId),
-      {
-        route,
-        timing,
-      },
-      { merge: true }
-    );
+  const [selectedCart, setSelectedCart] = useState("");
+  const [assignRoute, setAssignRoute] = useState("");
+  const [timing, setTiming] = useState("");
 
-    alert("Assigned successfully");
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    const campusSnap = await getDocs(collection(db, "campuses"));
+    setCampuses(campusSnap.docs.map(d => d.data()));
+
+    const routeSnap = await getDocs(collection(db, "routes"));
+    setRoutes(routeSnap.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    })));
+
+    const cartSnap = await getDocs(collection(db, "carts"));
+    setCarts(cartSnap.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    })));
   };
 
-  // 🔥 LIVE CART DATA
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, "carts"), (snap) => {
-      const data = snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      }));
-      setCarts(data);
+  const addRoute = async () => {
+    if (!routeName || selectedStops.length < 2) return;
+
+    await addDoc(collection(db, "routes"), {
+      name: routeName,
+      stops: selectedStops
     });
 
-    return () => unsub();
-  }, []);
+    setRouteName("");
+    setSelectedStops([]);
+    loadData();
+  };
+
+  const toggleStop = (campus: string) => {
+    setSelectedStops(prev =>
+      prev.includes(campus)
+        ? prev.filter(c => c !== campus)
+        : [...prev, campus]
+    );
+  };
+
+  const assignCart = async () => {
+    if (!selectedCart || !assignRoute) return;
+
+    await updateDoc(doc(db, "carts", selectedCart), {
+      route: assignRoute,
+      timing: timing,
+      status: "available"
+    });
+
+    setSelectedCart("");
+    setAssignRoute("");
+    setTiming("");
+    loadData();
+  };
 
   return (
     <div className="admin-root">
 
-      <h2 className="admin-title">Operations Control</h2>
+      <h2 className="admin-title">Admin Control</h2>
 
-      {/* 🔧 CONTROL CARD */}
+      {/* CREATE ROUTE */}
       <div className="admin-card">
+        <h3>Create Route</h3>
 
-        <h4>Assign Route</h4>
+        <input
+          placeholder="Route Name"
+          value={routeName}
+          onChange={(e) => setRouteName(e.target.value)}
+        />
 
-        <div className="form-group">
-          <label>Driver UID</label>
-          <input
-            placeholder="Enter driver UID"
-            value={driverId}
-            onChange={(e) => setDriverId(e.target.value)}
-          />
+        <div className="route-grid">
+          {campuses.map(c => (
+            <button
+              key={c.name}
+              onClick={() => toggleStop(c.name)}
+              className={`route-btn ${
+                selectedStops.includes(c.name) ? "active" : ""
+              }`}
+            >
+              {c.name}
+            </button>
+          ))}
         </div>
 
-        <div className="form-group">
-          <label>Route</label>
-          <input
-            placeholder="Campus 6 → Campus 15"
-            value={route}
-            onChange={(e) => setRoute(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Timing</label>
-          <input
-            placeholder="8:00 AM – 10:00 AM"
-            value={timing}
-            onChange={(e) => setTiming(e.target.value)}
-          />
-        </div>
-
-        <button className="primary-btn" onClick={assign}>
-          Assign Route
+        <button className="primary-btn" onClick={addRoute}>
+          Create Route
         </button>
-
       </div>
 
-      {/* 📊 ACTIVE CARTS */}
+      {/* ASSIGN CART */}
       <div className="admin-card">
+        <h3>Assign Cart</h3>
 
-        <h4>Active Carts</h4>
+        <select
+          value={selectedCart}
+          onChange={(e) => setSelectedCart(e.target.value)}
+        >
+          <option value="">Select Cart</option>
+          {carts.map(c => (
+            <option key={c.id} value={c.id}>
+              {c.id}
+            </option>
+          ))}
+        </select>
 
-        {carts.length === 0 && <p>No carts active</p>}
+        <select
+          value={assignRoute}
+          onChange={(e) => setAssignRoute(e.target.value)}
+        >
+          <option value="">Select Route</option>
+          {routes.map(r => (
+            <option key={r.id} value={r.name}>
+              {r.name}
+            </option>
+          ))}
+        </select>
 
-        {carts.map((c) => (
-          <div key={c.id} className="admin-row">
+        <input
+          placeholder="Timing (8 AM - 6 PM)"
+          value={timing}
+          onChange={(e) => setTiming(e.target.value)}
+        />
 
+        <button className="primary-btn" onClick={assignCart}>
+          Assign Cart
+        </button>
+      </div>
+
+      {/* CART STATUS */}
+      <div className="admin-card">
+        <h3>Cart Status</h3>
+
+        {carts.map(c => (
+          <div key={c.id} className="cart-row">
             <div>
-              <p className="route">{safeRender(c.route) || "No Route"}</p>
-              <p className="sub">{safeRender(c.timing) || "No Timing"}</p>
-              <p className="sub">Driver: {safeRender(c.id)?.slice(0, 6) || c.id?.slice(0, 6) || "------"}</p>
+              <div className="route">{c.id}</div>
+              <div className="sub">{c.route || "Not assigned"}</div>
             </div>
 
-            <span className={`status ${safeRender(c.status) || "available"}`}>
-              {safeRender(c.status) || "available"}
+            <span className={`status ${c.status}`}>
+              {c.status}
             </span>
-
           </div>
         ))}
-
       </div>
 
     </div>

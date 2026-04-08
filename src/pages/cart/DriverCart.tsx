@@ -4,14 +4,33 @@ import { useState, useEffect } from "react";
 import { useUI } from "../../context/UIContext";
 
 import { db } from "../../firebase";
-import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  setDoc,
+  onSnapshot,
+  collection,
+  getDocs
+} from "firebase/firestore";
+
+import {
+  MapContainer,
+  TileLayer,
+  Polyline,
+  Marker,
+  CircleMarker,
+  Popup
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 export default function DriverCart() {
   const { setModalOpen } = useUI();
 
   const [running, setRunning] = useState(false);
 
+  const [driverId, setDriverId] = useState("");
   const [cartId, setCartId] = useState("cart1");
+
   const [status, setStatus] = useState("available");
   const [location, setLocation] = useState<any>(null);
 
@@ -19,7 +38,32 @@ export default function DriverCart() {
   const [timing, setTiming] = useState("-");
   const [seats, setSeats] = useState(10);
 
-  // 🔥 RECEIVE ADMIN DATA
+  const [routeCoords, setRouteCoords] = useState<any[]>([]);
+  const [stops, setStops] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 🔥 ASSIGN DRIVER
+  const assignDriver = async () => {
+    if (!driverId) return;
+
+    await updateDoc(doc(db, "carts", cartId), {
+      driverId: driverId,
+      currentIndex: 0
+    });
+
+    // ensure full structure exists
+    await setDoc(
+      doc(db, "carts", cartId),
+      {
+        status: "available",
+        seats: 10,
+        location: { lat: 0, lng: 0 }
+      },
+      { merge: true }
+    );
+  };
+
+  // 🔥 LIVE CART DATA
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "carts", cartId), (snap) => {
       const data = snap.data();
@@ -29,27 +73,61 @@ export default function DriverCart() {
       setTiming(data.timing || "-");
       setStatus(data.status || "available");
       setSeats(data.seats ?? 10);
+      setCurrentIndex(data.currentIndex ?? 0);
     });
 
     return () => unsub();
   }, [cartId]);
 
-  // 🔥 UPDATE FIRESTORE
-  const updateCart = async (
-    lat: number,
-    lng: number,
-    newStatus = status,
-    newSeats = seats
-  ) => {
-    await setDoc(
-      doc(db, "carts", cartId),
-      {
-        location: { lat, lng },
-        status: newStatus,
-        seats: newSeats,
-      },
-      { merge: true }
-    );
+  // 🔥 LOAD ROUTE + STOPS
+  useEffect(() => {
+    if (!route) return;
+
+    const load = async () => {
+      const routeSnap = await getDocs(collection(db, "routes"));
+      const campusSnap = await getDocs(collection(db, "campuses"));
+
+      const campusMap: any = {};
+
+      campusSnap.docs.forEach(doc => {
+        const d = doc.data();
+        if (!d.location) return;
+
+        campusMap[d.name] = [
+          d.location.latitude,
+          d.location.longitude
+        ];
+      });
+
+      const routeData = routeSnap.docs
+        .map(d => d.data())
+        .find(r => r.name === route);
+
+      if (!routeData) return;
+
+      const coords = routeData.stops
+        .map((s: string) => campusMap[s])
+        .filter(Boolean);
+
+      if (coords.length === 0) return;
+
+      setStops(routeData.stops);
+      setRouteCoords(coords);
+    };
+
+    load();
+  }, [route]);
+
+  // 🔥 UPDATE CART (SAFE)
+  const updateCart = async (lat: number, lng: number) => {
+    if (!cartId) return;
+
+    await updateDoc(doc(db, "carts", cartId), {
+      location: { lat, lng },
+      status,
+      seats,
+      currentIndex
+    });
   };
 
   // 🔁 GPS LOOP
@@ -62,17 +140,24 @@ export default function DriverCart() {
         const lng = pos.coords.longitude;
 
         setLocation({ lat, lng });
+
+        // 🔥 STOP DETECTION
+        routeCoords.forEach((coord, i) => {
+          const dist =
+            Math.abs(coord[0] - lat) +
+            Math.abs(coord[1] - lng);
+
+          if (dist < 0.001 && i > currentIndex) {
+            setCurrentIndex(i);
+          }
+        });
+
         updateCart(lat, lng);
       });
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [running, status, seats]);
-
-  // 🔥 OPEN MODAL (FIXED)
-  const openModal = () => {
-    setModalOpen(true);
-  };
+  }, [running, routeCoords, currentIndex, status, seats]);
 
   return (
     <div className="driver-root">
@@ -80,8 +165,20 @@ export default function DriverCart() {
       {/* HEADER */}
       <div className="driver-header">
         <div className="driver-avatar">D</div>
-        <Settings size={20} onClick={openModal} />
+        <Settings size={20} onClick={() => setModalOpen(true)} />
       </div>
+
+      {/* DRIVER ID */}
+      <input
+        placeholder="Enter Driver ID"
+        value={driverId}
+        onChange={(e) => setDriverId(e.target.value)}
+        className="driver-select"
+      />
+
+      <button className="primary-btn" onClick={assignDriver}>
+        Assign Myself
+      </button>
 
       {/* CART SELECT */}
       <select
@@ -106,7 +203,7 @@ export default function DriverCart() {
         </div>
       </div>
 
-      {/* START / STOP */}
+      {/* START STOP */}
       <button
         className={`driver-toggle ${running ? "stop" : "start"}`}
         onClick={() => setRunning(!running)}
@@ -115,29 +212,15 @@ export default function DriverCart() {
         {running ? " Stop Route" : " Start Route"}
       </button>
 
-      {/* 🔥 PREMIUM STATUS BUTTONS */}
+      {/* STATUS */}
       <div className="driver-status-row">
-        {[
-          { key: "available", label: "Available" },
-          { key: "few", label: "Few" },
-          { key: "full", label: "Full" },
-          { key: "break", label: "Break" },
-          { key: "issue", label: "Issue" },
-        ].map((item) => (
+        {["available", "few", "full"].map((s) => (
           <button
-            key={item.key}
-            className={`status-btn ${status === item.key ? "active" : ""}`}
-            onClick={() => {
-              setStatus(item.key);
-              updateCart(
-                location?.lat || 0,
-                location?.lng || 0,
-                item.key
-              );
-            }}
+            key={s}
+            className={status === s ? "active" : ""}
+            onClick={() => setStatus(s)}
           >
-            <span className="dot"></span>
-            {item.label}
+            {s}
           </button>
         ))}
       </div>
@@ -151,23 +234,40 @@ export default function DriverCart() {
           min="0"
           max="12"
           value={seats}
-          onChange={(e) => {
-            const val = Number(e.target.value);
-            setSeats(val);
-            updateCart(location?.lat || 0, location?.lng || 0, status, val);
-          }}
+          onChange={(e) => setSeats(Number(e.target.value))}
         />
       </div>
 
       {/* MAP */}
       <div className="driver-map">
-        <iframe
-          src={
-            location
-              ? `https://www.google.com/maps?q=${location.lat},${location.lng}&output=embed`
-              : `https://www.google.com/maps?q=KIIT&output=embed`
-          }
-        />
+        {routeCoords.length > 0 && (
+          <MapContainer
+            center={routeCoords[0]}
+            zoom={16}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+            <Polyline positions={routeCoords} color="blue" />
+
+            {routeCoords.map((pos, i) => (
+              <CircleMarker
+                key={i}
+                center={pos}
+                radius={8}
+                pathOptions={{
+                  color: i <= currentIndex ? "green" : "gray"
+                }}
+              >
+                <Popup>{stops[i]}</Popup>
+              </CircleMarker>
+            ))}
+
+            {location && (
+              <Marker position={[location.lat, location.lng]} />
+            )}
+          </MapContainer>
+        )}
       </div>
 
     </div>

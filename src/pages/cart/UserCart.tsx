@@ -18,7 +18,6 @@ export default function UserCart() {
   const [carts, setCarts] = useState<any[]>([]);
   const [selectedCart, setSelectedCart] = useState<any>(null);
 
-  // 🔥 LIVE FIRESTORE DATA
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "carts"), (snapshot) => {
       const data = snapshot.docs.map(doc => ({
@@ -31,49 +30,42 @@ export default function UserCart() {
     return () => unsub();
   }, []);
 
-  // 🎯 FILTER BASED ON ROUTE
-  const filtered = carts;
-
-  // 🚀 BOOK FUNCTION
   const handleBook = (cart: any) => {
     setSelectedCart(cart);
-
-    alert(`Booked cart ${cart.id} 🚗`);
-    // later: send to backend / socket
   };
 
   return (
     <div className="cart-root">
 
-      {/* ===== LEFT PANEL ===== */}
+      {/* LEFT PANEL */}
       <div className="cart-panel">
 
-        <h3 className="cart-title">Find your ride</h3>
+        <h2 className="cart-title">Find Your Ride</h2>
 
         {/* ROUTE */}
         <div className="cart-route-box">
           <div className="route-pill" onClick={() => setPicker("from")}>
-            <span className="route-title">From</span>
-            <span className="route-value">{from}</span>
+            <span>From</span>
+            <strong>{from}</strong>
           </div>
 
           <div className="route-pill" onClick={() => setPicker("to")}>
-            <span className="route-title">To</span>
-            <span className="route-value">{to}</span>
+            <span>To</span>
+            <strong>{to}</strong>
           </div>
         </div>
 
         {/* INFO */}
         <div className="cart-info-row">
-          <span><Users size={14}/> {filtered.length} carts</span>
-          <span><Clock size={14}/> ~5 mins avg</span>
+          <span><Users size={14}/> {carts.length} carts</span>
+          <span><Clock size={14}/> ~5 mins</span>
         </div>
 
-        {/* 🔥 AVAILABLE CARTS */}
+        {/* LIST */}
         <div className="cart-list">
-          {filtered.length === 0 && <p>No carts available</p>}
+          {carts.length === 0 && <p>No carts available</p>}
 
-          {filtered.map(cart => (
+          {carts.map(cart => (
             <div key={cart.id} className="cart-card">
 
               <div className="cart-header">
@@ -83,10 +75,15 @@ export default function UserCart() {
                 </span>
               </div>
 
-              <p>🪑 Seats: {safeRender(cart.seats)}</p>
-              <p>⏱ ETA: {safeRender(cart.eta) || "4 mins"}</p>
+              <div className="cart-meta">
+                <span>🪑 {safeRender(cart.seats)}</span>
+                <span>⏱ {safeRender(cart.eta) || "4 min"}</span>
+              </div>
 
-              <button onClick={() => handleBook(cart)}>
+              <button 
+                className="book-btn"
+                onClick={() => handleBook(cart)}
+              >
                 Book Ride
               </button>
 
@@ -94,41 +91,31 @@ export default function UserCart() {
           ))}
         </div>
 
-        {/* 🔥 ACTION BUTTONS */}
-        <button
-          className="cart-action wide secondary"
-          onClick={() => nav("/cart-around")}
-        >
-          Nearby Carts
-        </button>
-
-        <button
-          className="cart-action wide secondary"
-          onClick={() => nav("/detail")}
-        >
-          Route Details
-        </button>
+        <div className="cart-actions">
+          <button onClick={() => nav("/cart-around")}>
+            Nearby
+          </button>
+          <button onClick={() => nav("/detail")}>
+            Details
+          </button>
+        </div>
 
       </div>
 
-      {/* ===== RIGHT MAP ===== */}
+      {/* RIGHT MAP */}
       <div className="cart-map-frame">
-
-        {/* 🔥 dynamic map */}
         <iframe
           src={`https://www.google.com/maps?q=${from}+KIIT+to+${to}&output=embed`}
         />
 
-        {/* 🔥 LIVE DRIVER OVERLAY */ }
-        {filtered.map(cart => (
-          <div key={safeRender(cart.id)} className="map-driver">
-            🚗 {safeRender(cart.id)}
+        {carts.map(cart => (
+          <div key={cart.id} className="map-driver">
+            🚗 {cart.id}
           </div>
         ))}
-
       </div>
 
-      {/* ===== PICKER ===== */}
+      {/* PICKER */}
       {picker && (
         <div className="center-backdrop" onClick={() => setPicker(null)}>
           <div className="center-sheet" onClick={(e) => e.stopPropagation()}>
@@ -150,13 +137,11 @@ export default function UserCart() {
         </div>
       )}
 
-      {/* 🔥 LIVE TRACK PANEL */}
+      {/* LIVE TRACK */}
       {selectedCart && (
         <div className="live-track">
           <h4>Live Ride</h4>
-          <p>Driver: {safeRender(selectedCart.id)}</p>
-          <p>Status: {safeRender(selectedCart.status)}</p>
-          <p>Seats Left: {safeRender(selectedCart.seats)}</p>
+          <p>{selectedCart.id}</p>
           <span className="live-dot"></span>
         </div>
       )}

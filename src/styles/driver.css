@@ -165,3 +165,9 @@
   height: 100%;
   border: none;
 }
+
+.driver-map {
+  height: 280px;
+  border-radius: 20px;
+  overflow: hidden;
+}

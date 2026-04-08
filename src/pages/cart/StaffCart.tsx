@@ -10,54 +10,42 @@ export default function StaffCart() {
   return (
     <div className="staff-root">
 
-      <h2 className="staff-title">Admin Dashboard</h2>
+      <div className="staff-header">
+        <h2>Control Center</h2>
+        <p>Manage routes, monitor carts & bookings</p>
+      </div>
 
-      {/* 🔥 TABS */}
+      {/* TABS */}
       <div className="staff-tabs">
         <button
           className={tab === "control" ? "active" : ""}
           onClick={() => setTab("control")}
         >
-          Control
+          ⚙ Control
         </button>
 
         <button
           className={tab === "monitor" ? "active" : ""}
           onClick={() => setTab("monitor")}
         >
-          Monitor
+          📍 Monitor
         </button>
 
         <button
           className={tab === "booking" ? "active" : ""}
           onClick={() => setTab("booking")}
         >
-          Booking
+          🚗 Booking
         </button>
       </div>
 
-      {/* 🔥 CONTENT */}
+      {/* CONTENT */}
       <div className="staff-content">
-
-        {tab === "control" && (
-          <div style={{ height: "100%" }}>
-            <Admin />
-          </div>
-        )}
-
-        {tab === "monitor" && (
-          <div style={{ height: "100%" }}>
-            <Tracking />
-          </div>
-        )}
-
-        {tab === "booking" && (
-          <div style={{ height: "100%" }}>
-            <UserCart />
-          </div>
-        )}
-
+        {tab === "control" && <Admin />}
+        {tab === "monitor" && <Tracking />}
+        {tab === "booking" && <UserCart />}
       </div>
+
     </div>
   );
 }
