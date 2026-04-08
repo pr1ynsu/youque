@@ -1,0 +1,78 @@
+.admin-root {
+  padding: 16px;
+}
+
+.admin-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0D4715;
+  margin-bottom: 16px;
+}
+
+.admin-card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  margin-top: 4px;
+  background: rgba(13,71,21,0.08);
+}
+
+/* BUTTON */
+.primary-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: #0D4715;
+  color: #EBE1D1;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* ROW */
+.admin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.route {
+  font-weight: 600;
+}
+
+.sub {
+  font-size: 12px;
+  color: gray;
+}
+
+/* STATUS */
+.status {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.status.available { background: #d4f8d4; }
+.status.few { background: #fff3cd; }
+.status.full { background: #ffd6d6; }

@@ -10,6 +10,8 @@ import Company from "./pages/Company";
 import Customer from "./pages/Customer";
 import CartAround from "./pages/CartAround";
 import Detail from "./pages/Detail";
+import Driver from "./pages/Driver";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
 
       {/* Layout wrapper */}
       <Route element={<Dashboard />}>
+      <Route path="/driver" element={<Driver />} />
+      <Route path="/admin" element={<Admin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/appointment" element={<Appointment />} />

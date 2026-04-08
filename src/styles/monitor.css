@@ -1,0 +1,27 @@
+.monitor-root {
+  padding: 6px;
+}
+
+.monitor-map {
+  height: 220px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.monitor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.monitor-card {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status.available { background: lightgreen; }
+.status.few { background: orange; }
+.status.full { background: red; color: white; }

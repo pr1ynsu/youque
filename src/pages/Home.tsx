@@ -1,4 +1,3 @@
-import { Search, MapPin } from "lucide-react";
 import { useState } from "react";
 import "../styles/home.css";
 import cart from "../assets/cart.jpg";
@@ -11,40 +10,37 @@ import { useAuth } from "../context/AuthContext";
 export default function Home() {
   const nav = useNavigate();
   const { user, role } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
 
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
 
-  /* NEW SHEETS */
-  const [serviceSheet, setServiceSheet] = useState(false);
-  const [locationSheet, setLocationSheet] = useState(false);
-
-  const [location, setLocation] = useState("Location");
-  const [query, setQuery] = useState("");
-
-  const services = [
-    { label: "Cart Service", path: "/cart" },
-    { label: "Appointment", path: "/appointment" },
-  ];
-
-  const campuses = [
-    "Campus 03",
-    "Campus 06",
-    "Campus 15",
-    "Campus 17",
-  ];
-
-  /* role avatar letter */
+  // 🔥 ROLE LOGIC
   const avatarLetter =
     role === "driver" ? "D" :
     role === "student" ? "S" :
+    role === "staff" ? "A" :
     "U";
+
+  const roleLabel =
+    role === "driver" ? "Driver" :
+    role === "student" ? "Student" :
+    role === "staff" ? "Staff" :
+    "User";
+
+  const heroText =
+    role === "driver"
+      ? "Manage rides. Earn smarter."
+      : role === "student"
+      ? "Skip queues. Move faster."
+      : role === "staff"
+      ? "Access campus services easily."
+      : "Smart campus mobility starts here.";
 
   return (
     <div className="home-root">
 
-      {/* ---------------- HEADER ---------------- */}
+      {/* HEADER */}
       <div className="home-header">
         <div className="youque-logo">
           <div className="logo-circle">Q</div>
@@ -79,103 +75,62 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ---------------- TITLE ---------------- */}
-      <h2 className="home-title">
-        Skip the queue.  
-        Book faster.  
-        Move smarter.
-      </h2>
-
-      {/* ---------------- MAIN BUTTONS ---------------- */}
-      <div className="home-main-btns">
-
-        <button
-          className="icon-btn"
-          onClick={() => setServiceSheet(true)}
-        >
-          <Search size={18}/> Services
-        </button>
-
-        <button
-          className="icon-btn"
-          onClick={() => setLocationSheet(true)}
-        >
-          <MapPin size={18}/> {location}
-        </button>
-
+      {/* HERO */}
+      <div className="home-hero">
+        <h1>{heroText}</h1>
+        <p className="home-sub">
+          Built for {roleLabel.toLowerCase()}s at KIIT
+        </p>
       </div>
 
-      {/* ---------------- CARDS ---------------- */}
+      {/* SERVICES */}
       <div className="service-column">
-        <div className="service-card" onClick={() => nav("/cart")}>
-          <div className="image-box"><img src={cart}/></div>
-          <p>Cart Service</p>
+
+        <div className="service-card" onClick={() => {
+  if (role === "driver") nav("/driver");
+  else if (role === "admin") nav("/admin");
+  else nav("/cart");
+}}>
+          <div className="image-box">
+            <img src={cart} />
+          </div>
+          <p>
+            {role === "driver"
+              ? "View Ride Requests"
+              : "Book a Cart"}
+          </p>
         </div>
 
         <div className="service-card" onClick={() => nav("/appointment")}>
-          <div className="image-box"><img src={appointment}/></div>
-          <p>Appointment</p>
+          <div className="image-box">
+            <img src={appointment} />
+          </div>
+          <p>
+            {role === "driver"
+              ? "Manage Schedule"
+              : "Book Appointment"}
+          </p>
+        </div>
+
+      </div>
+
+      {/* INFO SECTION */}
+      <div className="home-info">
+        <h4>Why YouQue?</h4>
+
+        <div className="info-grid">
+          <div className="info-box">Save Time</div>
+          <div className="info-box">Real-time Access</div>
+          <div className="info-box">Smart Routing</div>
         </div>
       </div>
 
+      {/* SHEETS */}
+      <DownloadSheet
+        open={downloadOpen}
+        onClose={() => setDownloadOpen(false)}
+      />
 
-      {/* ================================================= */}
-      {/* SERVICE SHEET (bottom popup like rapido) */}
-      {/* ================================================= */}
-      {serviceSheet && (
-        <div className="sheet-backdrop" onClick={() => setServiceSheet(false)}>
-          <div className="sheet" onClick={e => e.stopPropagation()}>
-            <h4>Select Service</h4>
-
-            {services.map(s => (
-              <div
-                key={s.label}
-                className="sheet-option"
-                onClick={() => nav(s.path)}
-              >
-                {s.label}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ================================================= */}
-      {/* LOCATION SHEET */}
-      {/* ================================================= */}
-      {locationSheet && (
-        <div className="sheet-backdrop" onClick={() => setLocationSheet(false)}>
-          <div className="sheet" onClick={e => e.stopPropagation()}>
-            <h4>Choose Location</h4>
-
-            <input
-              className="sheet-input"
-              placeholder="Search campus..."
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-            />
-
-            {campuses
-              .filter(c =>
-                c.toLowerCase().includes(query.toLowerCase())
-              )
-              .map(c => (
-                <div
-                  key={c}
-                  className="sheet-option"
-                  onClick={() => {
-                    setLocation(c);
-                    setLocationSheet(false);
-                  }}
-                >
-                  {c}
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
-
-      <DownloadSheet open={downloadOpen} onClose={() => setDownloadOpen(false)} />
       <AuthSheet
         open={authOpen}
         mode={mode}

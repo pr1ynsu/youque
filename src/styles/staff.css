@@ -1,0 +1,39 @@
+.staff-root {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+  background: #EBE1D1;
+  min-height: 100vh;
+}
+
+.staff-title {
+  text-align: center;
+  color: #0D4715;
+  margin-bottom: 16px;
+}
+
+.staff-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.staff-tabs button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(13,71,21,0.1);
+  cursor: pointer;
+}
+
+.staff-tabs button.active {
+  background: #0D4715;
+  color: #EBE1D1;
+}
+
+.staff-content {
+  background: rgba(255,255,255,0.6);
+  border-radius: 16px;
+  padding: 12px;
+}

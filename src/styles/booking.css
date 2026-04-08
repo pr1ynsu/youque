@@ -1,0 +1,113 @@
+/* FULL SCREEN */
+.app-container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* MAP */
+.map-bg {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+/* TOP SCROLL */
+.top-carts {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+}
+
+.mini-card {
+  background: rgba(0,0,0,0.6);
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* BOTTOM PANEL */
+.bottom-panel {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px 20px 0 0;
+  background: rgba(20,20,20,0.85);
+  backdrop-filter: blur(10px);
+  color: white;
+  z-index: 2;
+}
+
+/* ROUTE */
+.route-box {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.route-pill {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* INFO */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* NEARBY */
+.nearby-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nearby-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.nearby-card button {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* PICKER */
+.sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet {
+  background: #111;
+  padding: 20px;
+  border-radius: 16px;
+  width: 80%;
+}
+
+.option {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}

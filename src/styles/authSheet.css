@@ -1,146 +1,200 @@
+/* 🔲 BACKDROP */
 .auth-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(13,71,21,0.45);
-  backdrop-filter: blur(5px);
+  background: rgba(13, 71, 21, 0.45);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   z-index: 1000;
 }
 
+/* 📦 SHEET */
 .auth-sheet {
   width: 100%;
   max-width: 420px;
-  margin: 0 auto;
   background: linear-gradient(
     145deg,
-    rgba(235,225,209,0.9),
-    rgba(255,255,255,0.65)
+    rgba(235, 225, 209, 0.95),
+    rgba(255, 255, 255, 0.75)
   );
   backdrop-filter: blur(20px);
-  border-top-left-radius: 36px;
-  border-top-right-radius: 36px;
-  padding: 28px 22px 34px;
-  animation: authSlideUp 0.5s cubic-bezier(0.22,1,0.36,1);
-  box-shadow: 0 -18px 40px rgba(13,71,21,0.45);
-  border: 1px solid rgba(255,255,255,0.3);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  padding: 26px 20px 30px;
+  animation: authSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 -16px 40px rgba(13, 71, 21, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   box-sizing: border-box;
 }
 
+/* 🧭 HANDLE */
 .auth-handle {
-  width: 46px;
+  width: 42px;
   height: 5px;
-  background: rgba(13,71,21,0.4);
-  border-radius: 12px;
-  margin: 0 auto 18px;
+  background: rgba(13, 71, 21, 0.35);
+  border-radius: 10px;
+  margin: 0 auto 16px;
 }
 
+/* 🔰 HEADER */
 .auth-header {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  color: #0D4715;
-  margin-bottom: 18px;
+  color: #0d4715;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
 .auth-logo-circle {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #0D4715;
-  color: #EBE1D1;
+  background: #0d4715;
+  color: #ebe1d1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
 }
 
+/* 📝 TITLE */
 .auth-sheet h3 {
   text-align: center;
-  color: #0D4715;
-  margin-bottom: 16px;
+  color: #0d4715;
+  margin-bottom: 18px;
+  font-weight: 600;
 }
 
+/* ✏️ INPUTS */
 .auth-inputs {
-  padding: 0 4px;
+  padding: 0 2px;
 }
 
 .auth-inputs input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 13px 14px;
   margin-bottom: 12px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: none;
-  background: rgba(13,71,21,0.12);
-  color: #0D4715;
+  background: rgba(13, 71, 21, 0.1);
+  color: #0d4715;
+  font-size: 14px;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
+/* 🔍 INPUT FOCUS */
+.auth-inputs input:focus {
+  outline: none;
+  background: rgba(13, 71, 21, 0.15);
+  box-shadow: 0 0 0 2px rgba(13, 71, 21, 0.2);
+}
+
+/* 🚀 PRIMARY BUTTON */
 .auth-btn {
-  width: calc(100% - 8px);
-  margin: 8px 4px 0;
-  padding: 12px;
-  border-radius: 20px;
-  background: #0D4715;
-  color: #EBE1D1;
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px;
+  border-radius: 18px;
+  background: #0d4715;
+  color: #ebe1d1;
   border: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .auth-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(13,71,21,0.35);
+  box-shadow: 0 6px 16px rgba(13, 71, 21, 0.35);
 }
 
+/* ⚡ DISABLED STATE */
+.auth-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ➖ OR TEXT */
 .auth-or {
   text-align: center;
-  color: rgba(13,71,21,0.7);
-  margin: 16px 0;
+  color: rgba(13, 71, 21, 0.65);
+  margin: 16px 0 12px;
+  font-size: 13px;
 }
 
+/* 🌐 SOCIAL BUTTONS (TEXT BASED) */
 .auth-socials {
   display: flex;
-  justify-content: space-around;
-  gap: 14px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.auth-socials img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  padding: 6px;
-  background: rgba(13,71,21,0.12);
+.auth-social-btn {
+  width: 100%;
+  padding: 12px;
   border-radius: 14px;
+  border: none;
+  background: rgba(13, 71, 21, 0.1);
+  color: #0d4715;
+  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.auth-socials img:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 12px rgba(13,71,21,0.3);
+.auth-social-btn:hover {
+  background: #0d4715;
+  color: #ebe1d1;
+  transform: translateY(-1px);
 }
 
+/* 🍏 APPLE BUTTON */
+.auth-social-btn.apple {
+  background: #000;
+  color: #fff;
+}
+
+/* 🔁 SWITCH TEXT */
 .auth-switch {
   margin-top: 18px;
   text-align: center;
   font-size: 13px;
-  color: rgba(13,71,21,0.8);
+  color: rgba(13, 71, 21, 0.75);
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
-.auth-highlight {
-  font-weight: 700;
-  color: #EBE1D1;
-  margin-left: 4px;
-}
-
 .auth-switch:hover {
-  color: #0D4715;
+  color: #0d4715;
 }
 
+.auth-highlight {
+  font-weight: 600;
+  color: #0d4715;
+}
+
+/* 🎬 ANIMATION */
 @keyframes authSlideUp {
-  from { transform: translateY(120%); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 📱 MOBILE TWEAK */
+@media (max-width: 480px) {
+  .auth-sheet {
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    padding: 22px 16px 26px;
+  }
 }

@@ -1,10 +1,13 @@
 import { useAuth } from "../context/AuthContext";
 import UserCart from "./cart/UserCart";
 import DriverCart from "./cart/DriverCart";
+import StaffCart from "./cart/StaffCart";
 
 export default function Cart() {
   const { role } = useAuth();
 
-  // brain of the system
-  return role === "driver" ? <DriverCart /> : <UserCart />;
+  if (role === "driver") return <DriverCart />;
+  if (role === "staff") return <StaffCart />;
+
+  return <UserCart />;
 }

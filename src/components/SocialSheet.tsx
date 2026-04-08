@@ -1,10 +1,8 @@
 import "../styles/sheet.css";
 
-import facebook from "../assets/facebook.png";
 import instagram from "../assets/instagram.png";
 import twitter from "../assets/twitter.png";
 import linkedin from "../assets/linkedin.png";
-import youtube from "../assets/youtube.png";
 
 export default function SocialSheet({
   open,
@@ -15,35 +13,48 @@ export default function SocialSheet({
 }) {
   if (!open) return null;
 
+  const socials = [
+    {
+      name: "Instagram",
+      icon: instagram,
+      link: "https://instagram.com",
+    },
+    {
+      name: "Twitter",
+      icon: twitter,
+      link: "https://twitter.com",
+    },
+    {
+      name: "LinkedIn",
+      icon: linkedin,
+      link: "https://linkedin.com",
+    },
+  ];
+
   return (
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
+
         <div className="sheet-handle" />
 
-        <h3 className="sheet-title">Follow YouQue</h3>
-        <p className="sheet-tagline">Be part of the movement</p>
+        <h3 className="sheet-title">Connect with YouQue</h3>
+        <p className="sheet-subtitle">
+          Stay updated. Follow the journey.
+        </p>
 
-        <div className="sheet-grid">
-          <div className="social-icon" onClick={() => window.open("https://facebook.com", "_blank")}>
-            <img src={facebook} />
-          </div>
-
-          <div className="social-icon" onClick={() => window.open("https://instagram.com", "_blank")}>
-            <img src={instagram} />
-          </div>
-
-          <div className="social-icon" onClick={() => window.open("https://twitter.com", "_blank")}>
-            <img src={twitter} />
-          </div>
-
-          <div className="social-icon" onClick={() => window.open("https://linkedin.com", "_blank")}>
-            <img src={linkedin} />
-          </div>
-
-          <div className="social-icon" onClick={() => window.open("https://youtube.com", "_blank")}>
-            <img src={youtube} />
-          </div>
+        <div className="social-list">
+          {socials.map((item) => (
+            <div
+              key={item.name}
+              className="social-row"
+              onClick={() => window.open(item.link, "_blank")}
+            >
+              <img src={item.icon} alt={item.name} />
+              <span>{item.name}</span>
+            </div>
+          ))}
         </div>
+
       </div>
     </div>
   );

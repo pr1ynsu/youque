@@ -6,14 +6,13 @@
   min-height: 100vh;
 }
 
-/* Header */
+/* HEADER */
 .home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Logo */
 .youque-logo {
   display: flex;
   align-items: center;
@@ -29,156 +28,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
   font-weight: 700;
+  animation: logoFloat 4s ease-in-out infinite;
 }
 
 .logo-text {
   font-size: 18px;
   color: #0D4715;
+  font-weight: 600;
 }
 
-/* Header buttons */
+/* HEADER BUTTONS */
 .home-actions {
   display: flex;
   gap: 10px;
 }
 
-.btn-download {
-  background: #0D4715;
-  color: #EBE1D1;
+.btn-download,
+.btn-signin {
   border-radius: 24px;
   padding: 6px 14px;
   border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-download {
+  background: #0D4715;
+  color: #EBE1D1;
 }
 
 .btn-signin {
   border: 2px solid #0D4715;
   color: #0D4715;
-  background: #EBE1D1;
-  border-radius: 24px;
-  padding: 6px 14px;
+  background: transparent;
 }
 
-/* Title */
-.home-title {
-  margin-top: 20px;
-  font-size: 18px;
+.btn-download:hover,
+.btn-signin:hover {
+  transform: translateY(-1px);
 }
 
-/* Search & location */
-.home-main-btns {
-  display: flex;
-  gap: 14px;
-  margin: 18px 0;
-}
-
-.home-main-btns button {
-  flex: 1;
-  background: #0D4715;
-  color: #EBE1D1;
-  border-radius: 30px;
-  border: none;
-  padding: 10px 0;
-}
-
-/* Icon buttons */
-.icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-/* Services column */
-.service-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-/* Service card */
-.service-card {
-  width: 100%;
-  height: 230px;
-  background: #0D4715;
-  border-radius: 24px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Image chamber */
-.service-card .image-box {
-  flex: 1;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Perfect image fit */
-.service-card img {
-  max-width: 70%;
-  max-height: 85%;
-  object-fit: contain;
-}
-
-/* Label */
-.service-card p {
-  height: 42px;
-  line-height: 42px;
-  color: #EBE1D1;
-  text-align: center;
-  font-size: 14px;
-  border-top: 1px solid rgba(255,255,255,0.15);
-}
-
-/* Coming soon */
-.coming-soon {
-  align-items: center;
-  justify-content: center;
-}
-
-.coming-box {
-  color: #EBE1D1;
-  font-size: 20px;
-  opacity: 0.7;
-}
-
-/* Glass footer */
-.glass-footer {
-  position: fixed;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(18px);
-  border-radius: 30px;
-  display: flex;
-  gap: 20px;
-  padding: 10px 18px;
-  color: #0D4715;
-  align-items: center;
-}
-
-.glass-footer span {
-  position: relative;
-  z-index: 2;
-  font-size: 13px;
-}
-
-.glass-indicator {
-  position: absolute;
-  height: 30px;
-  width: 60px;
-  background: rgba(13,71,21,0.2);
-  border-radius: 20px;
-  left: 12px;
-  transition: 0.35s ease;
-}
-
+/* USER AVATAR */
 .user-circle-only {
   width: 38px;
   height: 38px;
@@ -190,191 +81,103 @@
   justify-content: center;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.user-circle-only:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(13,71,21,0.4);
+/* HERO */
+.home-hero {
+  text-align: center;
+  margin-top: 30px;
 }
 
-.btn-download,
-.btn-signin {
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+.home-hero h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0D4715;
 }
 
-.btn-download:hover {
-  transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 6px 14px rgba(13, 71, 21, 0.45);
+.home-sub {
+  font-size: 14px;
+  color: rgba(13,71,21,0.7);
+  margin-top: 6px;
 }
 
-.btn-signin:hover {
-  transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 4px 12px rgba(13, 71, 21, 0.35);
+/* SERVICES */
+.service-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 26px;
 }
 
-/* ----------------- PROFESSIONAL MOTION SYSTEM ----------------- */
-
-/* Buttons motion */
-.btn-download,
-.btn-signin,
-.icon-btn {
-  position: relative;
-  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
-              box-shadow 0.25s ease,
-              background 0.25s ease;
-}
-
-.btn-download:hover,
-.btn-signin:hover,
-.icon-btn:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 10px 20px rgba(13,71,21,0.45);
-}
-
-.btn-download:active,
-.btn-signin:active,
-.icon-btn:active {
-  transform: scale(0.96);
-}
-
-/* Service cards motion */
 .service-card {
-  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
-              box-shadow 0.32s ease;
+  width: 100%;
+  height: 220px;
+  background: #0D4715;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .service-card:hover {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 18px 34px rgba(13,71,21,0.45);
+  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(13,71,21,0.4);
+}
+
+.image-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .service-card img {
-  transition: transform 0.3s ease;
+  max-width: 70%;
+  object-fit: contain;
+  transition: 0.3s;
 }
 
 .service-card:hover img {
   transform: scale(1.08);
 }
 
-/* User avatar motion */
-.user-circle-only {
-  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
-              box-shadow 0.28s ease;
-}
-
-.user-circle-only:hover {
-  transform: rotate(-6deg) scale(1.1);
-  box-shadow: 0 8px 18px rgba(13,71,21,0.45);
-}
-
-/* Logo breathing animation */
-.logo-circle {
-  animation: logoFloat 4s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-3px); }
-  100% { transform: translateY(0); }
-}
-
-/* Glass dropdown motion */
-.glass-dropdown {
-  animation: glassEnter 0.38s cubic-bezier(0.22,1,0.36,1);
-  transform-origin: top center;
-}
-
-@keyframes glassEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.92) translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.glass-dropdown p {
-  transition: all 0.2s ease;
-}
-
-.glass-dropdown p:hover {
-  transform: translateX(6px);
-  background: rgba(13,71,21,0.18);
-}
-
-/* ========================= */
-/* BETTER TYPOGRAPHY         */
-/* ========================= */
-
-.home-title {
-  margin-top: 32px;
+.service-card p {
+  height: 42px;
+  line-height: 42px;
   text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.5;
+  color: #EBE1D1;
+  font-size: 14px;
+}
+
+/* INFO SECTION */
+.home-info {
+  margin-top: 28px;
+}
+
+.home-info h4 {
   color: #0D4715;
-  letter-spacing: .3px;
-}
-
-
-/* ========================= */
-/* APP STYLE BOTTOM SHEET    */
-/* ========================= */
-
-.sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(13,71,21,.45);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 1200;
-}
-
-.sheet {
-  width: 95%;
-  max-width: 380px;
-  background: #EBE1D1;
-  border-radius: 26px 26px 0 0;
-  padding: 20px;
-  animation: sheetUp .35s cubic-bezier(.22,1,.36,1);
-}
-
-.sheet h4 {
-  text-align: center;
-  color: #0D4715;
-  margin-bottom: 14px;
-}
-
-.sheet-option {
-  padding: 12px;
-  border-radius: 14px;
-  background: rgba(13,71,21,.1);
   margin-bottom: 10px;
+}
+
+.info-grid {
+  display: flex;
+  gap: 10px;
+}
+
+.info-box {
+  flex: 1;
+  background: rgba(13,71,21,0.1);
+  border-radius: 14px;
+  padding: 12px;
   text-align: center;
-  cursor: pointer;
-  transition: .2s;
+  font-size: 13px;
 }
 
-.sheet-option:hover {
-  background: rgba(13,71,21,.2);
-  transform: scale(1.03);
-}
-
-.sheet-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  margin-bottom: 12px;
-  background: rgba(13,71,21,.12);
-}
-
-@keyframes sheetUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+/* ANIMATION */
+@keyframes logoFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
 }

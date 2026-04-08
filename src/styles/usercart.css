@@ -1,0 +1,25 @@
+.usercart-root {
+  padding: 16px;
+}
+
+.map {
+  height: 250px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.cart-card {
+  background: white;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.status.available { background: lightgreen; }
+.status.few { background: orange; }
+.status.full { background: red; color: white; }

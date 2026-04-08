@@ -1,10 +1,18 @@
-import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+export const startTracking = (callback: any) => {
+  navigator.geolocation.watchPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
 
-export async function fetchCityData(city: string) {
-  const ref = doc(db, "cities", city.toLowerCase());
-  const snap = await getDoc(ref);
-
-  if (!snap.exists()) return null;
-  return snap.data();
-}
+      callback({
+        lat: latitude,
+        lng: longitude,
+      });
+    },
+    (error) => console.error(error),
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 5000,
+    }
+  );
+};

@@ -14,13 +14,25 @@ export default function DownloadSheet({
   return (
     <div className="sheet-backdrop" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
+
         <div className="sheet-handle" />
-        <h3>Download YouQue</h3>
+
+        <h3 className="sheet-title">Download YouQue</h3>
+        <p className="sheet-subtitle">Access faster from your device</p>
 
         <div className="store-row">
-          <img src={app} onClick={() => window.open("https://apple.com/app-store")} />
-          <img src={play} onClick={() => window.open("https://play.google.com/store")} />
+          <img
+            src={app}
+            alt="App Store"
+            onClick={() => window.open("https://apple.com/app-store")}
+          />
+          <img
+            src={play}
+            alt="Play Store"
+            onClick={() => window.open("https://play.google.com/store")}
+          />
         </div>
+
       </div>
     </div>
   );

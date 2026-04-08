@@ -1,10 +1,13 @@
 import "../styles/authSheet.css";
-import google from "../assets/google.png";
-import apple from "../assets/apple.png";
-import facebook from "../assets/facebook.png";
 
 import { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
@@ -25,6 +28,7 @@ export default function AuthSheet({
 
   if (!open) return null;
 
+  // ✅ EMAIL AUTH (unchanged)
   const handleAuth = async () => {
     if (!email || !password) return alert("Please fill all fields");
 
@@ -51,6 +55,27 @@ export default function AuthSheet({
     }
   };
 
+  // ✅ GOOGLE AUTH (NEW)
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const res = await signInWithPopup(auth, provider);
+
+      await setDoc(
+        doc(db, "users", res.user.uid),
+        {
+          email: res.user.email,
+          createdAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      onClose();
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div className="auth-backdrop" onClick={onClose}>
       <div className="auth-sheet" onClick={(e) => e.stopPropagation()}>
@@ -61,8 +86,13 @@ export default function AuthSheet({
           <span>YouQue</span>
         </div>
 
-        <h3>{mode === "signin" ? "Login to your account" : "Create your account"}</h3>
+        <h3>
+          {mode === "signin"
+            ? "Login to your account"
+            : "Create your account"}
+        </h3>
 
+        {/* ✅ EMAIL INPUTS (UNCHANGED) */}
         <div className="auth-inputs">
           <input
             placeholder="Email"
@@ -77,30 +107,38 @@ export default function AuthSheet({
           />
         </div>
 
+        {/* ✅ EMAIL BUTTON */}
         <button className="auth-btn" onClick={handleAuth} disabled={loading}>
-          {loading ? "Please wait..." : mode === "signin" ? "Sign In" : "Sign Up"}
+          {loading
+            ? "Please wait..."
+            : mode === "signin"
+            ? "Sign In"
+            : "Sign Up"}
         </button>
 
+        {/* ✅ CLEAN TEXT SOCIAL OPTIONS */}
         <p className="auth-or">
-          — or {mode === "signin" ? "sign in" : "sign up"} with —
+          — or continue with —
         </p>
 
         <div className="auth-socials">
-          <img src={google} />
-          <img src={facebook} />
-          <img src={apple} />
+          <button className="auth-social-btn" onClick={handleGoogle}>
+            Continue with Google
+          </button>
+
+          
         </div>
 
         <p className="auth-switch" onClick={onSwitch}>
           {mode === "signin" ? (
             <>
-              Don’t have an account ?{" "}
-              <span className="auth-highlight">Sign Up</span>
+              Don’t have an account ?
+              <span className="auth-highlight"> Sign Up</span>
             </>
           ) : (
             <>
-              Already have an account ?{" "}
-              <span className="auth-highlight">Sign In</span>
+              Already have an account ?
+              <span className="auth-highlight"> Sign In</span>
             </>
           )}
         </p>

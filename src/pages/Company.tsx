@@ -4,55 +4,94 @@ export default function Company() {
   return (
     <div className="company-root">
 
-      <section className="company-hero">
-        <div className="company-logo">Q</div>
+      {/* HERO */}
+      <section className="hero">
+        <div className="logo">Q</div>
         <h1>YouQue</h1>
-        <p>Skip the queue. Reclaim your time.</p>
+        <p className="tagline">Designed to eliminate waiting.</p>
       </section>
 
-      <section className="company-card">
+      {/* PROBLEM */}
+      <section className="section">
         <h2>The Problem</h2>
         <p>
-          Students waste hours waiting for services — carts, offices, 
-          help desks — without knowing availability or queue length.
-          Time disappears silently.
+          Across large campuses, movement is uncertain. Students depend on
+          transport systems without visibility — no clear arrival time,
+          no predictable flow.
         </p>
-      </section>
-
-      <section className="company-card">
-        <h2>Our Solution</h2>
         <p>
-          YouQue converts uncertainty into clarity. 
-          Live service discovery, instant bookings, 
-          campus mobility tracking — no guessing, no chaos.
+          What should be a simple transition between locations becomes
+          a daily disruption.
         </p>
       </section>
 
-      <section className="company-card">
-        <h2>About Us</h2>
+      {/* CONSEQUENCE */}
+      <section className="section subtle">
         <p>
-          Born in campus frustration, built with empathy.
-          We design tools that respect human time.
+          15–30 minutes lost waiting. Missed classes. Constant guesswork.
+          An entire system running without awareness.
         </p>
       </section>
 
-      <section className="company-card">
-        <h2>Careers</h2>
+      {/* INSIGHT */}
+      <section className="section">
+        <h2>The Insight</h2>
         <p>
-          We don’t hire resumes. We hire rebels who believe queues
-          are a design flaw in civilization.
+          The inefficiency is not in transport itself —
+          but in the absence of real-time information.
         </p>
-      </section>
-
-      <section className="company-card">
-        <h2>Team YouQue</h2>
         <p>
-          Engineers, designers, skaters, problem-solvers.
-          All united by impatience for broken systems.
+          When users cannot see the system, they cannot respond to it.
         </p>
       </section>
 
-      <div className="company-footer-space"/>
+      {/* SOLUTION */}
+      <section className="section emphasis">
+        <h2>The Solution</h2>
+        <p>
+          YouQue introduces real-time visibility and demand coordination.
+          It allows users to understand movement as it happens —
+          and act accordingly.
+        </p>
+      </section>
+
+      {/* SYSTEM */}
+      <section className="section">
+        <h2>The System</h2>
+        <p>
+          A connected ecosystem where students, drivers, and administrators
+          operate within a shared layer of information.
+        </p>
+
+        <ul>
+          <li>Live vehicle tracking across campus</li>
+          <li>Demand signaling at pickup points</li>
+          <li>Centralized admin coordination</li>
+          <li>Continuous location updates every few seconds</li>
+        </ul>
+      </section>
+
+      {/* IMPACT */}
+      <section className="section">
+        <h2>The Impact</h2>
+        <p>
+          Reduced waiting time. Better allocation of resources.
+          A smoother, predictable flow of movement.
+        </p>
+      </section>
+
+      {/* VISION */}
+      <section className="section vision">
+        <h2>Vision</h2>
+        <p>
+          We believe waiting is not inevitable — it is a design flaw.
+        </p>
+        <p>
+          YouQue aims to redefine how movement systems operate,
+          extending beyond campuses into cities and everyday infrastructure.
+        </p>
+      </section>
+
     </div>
   );
 }

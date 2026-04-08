@@ -1,7 +1,9 @@
 import "../../styles/cart.css";
-import { MapPin, Clock, Users } from "lucide-react";
+import { MapPin, Clock, Users, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const campuses = ["Campus 03", "Campus 06", "Campus 15", "Campus 17"];
 
@@ -12,18 +14,42 @@ export default function UserCart() {
   const [from, setFrom] = useState("Campus 15");
   const [to, setTo] = useState("Campus 06");
 
-  const seatsAvailable = 3;
-  const eta = "4 mins";
+  const [carts, setCarts] = useState<any[]>([]);
+  const [selectedCart, setSelectedCart] = useState<any>(null);
+
+  // 🔥 LIVE FIRESTORE DATA
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "carts"), (snapshot) => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setCarts(data);
+    });
+
+    return () => unsub();
+  }, []);
+
+  // 🎯 FILTER BASED ON ROUTE
+  const filtered = carts.filter(c => c.from === from && c.to === to);
+
+  // 🚀 BOOK FUNCTION
+  const handleBook = (cart: any) => {
+    setSelectedCart(cart);
+
+    alert(`Booked cart ${cart.id} 🚗`);
+    // later: send to backend / socket
+  };
 
   return (
     <div className="cart-root">
 
-      {/* ===== Info Panel ===== */}
+      {/* ===== LEFT PANEL ===== */}
       <div className="cart-panel">
 
         <h3 className="cart-title">Find your ride</h3>
 
-        {/* From/To */}
+        {/* ROUTE */}
         <div className="cart-route-box">
           <div className="route-pill" onClick={() => setPicker("from")}>
             <span className="route-title">From</span>
@@ -36,43 +62,72 @@ export default function UserCart() {
           </div>
         </div>
 
-        {/* Info row */}
+        {/* INFO */}
         <div className="cart-info-row">
-          <span><Users size={14}/> {seatsAvailable} seats</span>
-          <span><Clock size={14}/> {eta}</span>
+          <span><Users size={14}/> {filtered.length} carts</span>
+          <span><Clock size={14}/> ~5 mins avg</span>
         </div>
 
-        {/* EXISTING */}
-        <button className="cart-action wide">
-          Book Cart
-        </button>
+        {/* 🔥 AVAILABLE CARTS */}
+        <div className="cart-list">
+          {filtered.length === 0 && <p>No carts available</p>}
 
-        {/* 🔥 ADDED ONLY THESE TWO (nothing else changed) */}
+          {filtered.map(cart => (
+            <div key={cart.id} className="cart-card">
 
+              <div className="cart-header">
+                <h4>{cart.from} → {cart.to}</h4>
+                <span className={`status ${cart.status}`}>
+                  {cart.status}
+                </span>
+              </div>
+
+              <p>🪑 Seats: {cart.seats}</p>
+              <p>⏱ ETA: {cart.eta || "4 mins"}</p>
+
+              <button onClick={() => handleBook(cart)}>
+                Book Ride
+              </button>
+
+            </div>
+          ))}
+        </div>
+
+        {/* 🔥 ACTION BUTTONS */}
         <button
           className="cart-action wide secondary"
           onClick={() => nav("/cart-around")}
         >
-          Cart around you
+          Nearby Carts
         </button>
 
         <button
           className="cart-action wide secondary"
           onClick={() => nav("/detail")}
         >
-          View Details
+          Route Details
         </button>
 
       </div>
 
-
-      {/* ===== MAP ===== */}
+      {/* ===== RIGHT MAP ===== */}
       <div className="cart-map-frame">
-        <iframe src="https://www.google.com/maps?q=KIIT+Campus+6&output=embed" />
+
+        {/* 🔥 dynamic map */}
+        <iframe
+          src={`https://www.google.com/maps?q=${from}+KIIT+to+${to}&output=embed`}
+        />
+
+        {/* 🔥 LIVE DRIVER OVERLAY */}
+        {filtered.map(cart => (
+          <div key={cart.id} className="map-driver">
+            🚗 {cart.id}
+          </div>
+        ))}
+
       </div>
 
-
-      {/* ===== Picker Sheet ===== */}
+      {/* ===== PICKER ===== */}
       {picker && (
         <div className="center-backdrop" onClick={() => setPicker(null)}>
           <div className="center-sheet" onClick={(e) => e.stopPropagation()}>
@@ -93,6 +148,18 @@ export default function UserCart() {
           </div>
         </div>
       )}
+
+      {/* 🔥 LIVE TRACK PANEL */}
+      {selectedCart && (
+        <div className="live-track">
+          <h4>Live Ride</h4>
+          <p>Driver: {selectedCart.id}</p>
+          <p>Status: {selectedCart.status}</p>
+          <p>Seats Left: {selectedCart.seats}</p>
+          <span className="live-dot"></span>
+        </div>
+      )}
+
     </div>
   );
 }

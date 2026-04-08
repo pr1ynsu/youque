@@ -1,0 +1,20 @@
+.tracking-root {
+  padding: 10px;
+}
+
+/* MAP CONTAINER */
+.map {
+  height: 260px;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* OPTIONAL HEADER */
+.tracking-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0D4715;
+  margin-bottom: 10px;
+}
