@@ -1,5 +1,5 @@
 import "../../styles/usercart.css";
-import { MapPin } from "lucide-react";
+// import { MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import {
